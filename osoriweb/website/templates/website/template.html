@@ -8,8 +8,22 @@
 	<header>
 	<a href="{%url 'index_page'%}"><strong>오</strong>픈<strong>소</strong>스동아<strong>리</strong></a>
 	
-<!-- login 부분 집어넣기 -->
-	</header>
+
+        {% if user.is_active %}
+
+			<li>{{user.username}}</li>
+  			<li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+    <form action="{% url 'login' %}" method="POST">{% csrf_token %}
+        <input id="username-field" name="username" type="text" />
+        <input id="password-field" name="password" type="password" />
+        <button type="submit">Login</button>
+    </form>
+      <li><a href="{% url 'admin:index' %}">Admin</a></li>
+
+        {% endif %}
+
+
 	<nav>
 		<ul>
 			<li><a href="{% url 'about'%}">About</a></li>
@@ -19,6 +33,8 @@
 			<li><a href="{% url 'contact'%}">Contact</a></li>
 		</ul>
 	</nav>
+
+	</header>
 
 {% block content %}
 {% endblock %}

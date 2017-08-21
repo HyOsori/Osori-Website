@@ -1,0 +1,24 @@
+  {% extends 'website/template.html' %}
+  {% block content %}
+
+  <!-- 로그인 되어있는 경우 -->
+  {% if user.is_active %}
+  <h2> Welcome, {{user.username}} </h2>
+  <a href="{% url 'logout' %}">로그아웃</a>
+
+  <!-- 로그인 되어있지 않은 경우 -->
+  {% else %}
+  {% if form.errors %}
+    <!-- 에러발생시 -->
+  <p>ID나 비밀번호가 일치하지 않습니다.</p>
+  {% endif %}
+    <!-- 로그인 폼 -->
+  <form method="post" action="{% url 'login' %}">
+  {% csrf_token %}
+  <input type="hidden" name="next" value="" />
+  {{ form.as_p }}
+  <button type="submit">로그인</button>
+  </form>
+
+  {% endif %}
+  {% endblock %}
