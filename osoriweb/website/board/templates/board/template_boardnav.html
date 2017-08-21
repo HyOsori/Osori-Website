@@ -1,0 +1,13 @@
+{% extends 'website/template.html' %}
+{% block content %}
+
+<nav class = "left_nav">
+<ul>
+	<li><a href="{%url 'noti_board'%}">공지 게시판</a></li>
+	<li><a href="{%url 'info_board'%}">정보 게시판</a></li>
+	<li><a href="{%url 'free_board'%}">자유 게시판</a></li>
+</ul>
+</nav>
+{% block articled %}
+{% endblock articled %}
+{% endblock content %}
