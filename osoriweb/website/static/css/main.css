@@ -1,0 +1,42 @@
+      .big_container{
+        width: 940px;
+        margin: 0px auto;
+        padding: 20px;
+      }
+
+
+      .top_nav {
+
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 1px solid #bcbcbc;
+      }
+      .top_nav > ul {
+                list-style-type: none;
+
+      }
+      .top_nav > ul > li {
+                padding-right: 10px;
+                display: inline;
+      }
+
+
+      .container {
+        width: 580px;
+        padding: 20px;
+        margin-bottom: 20px;
+        float: right;
+        border: 1px solid #bcbcbc;
+      }
+      .left_nav {
+        width: 260px;
+        padding: 20px;
+        margin-bottom: 20px;
+        float: left;
+        border: 1px solid #bcbcbc;
+      }
+      .footer {
+        clear: both;
+        padding: 20px;
+        border: 1px solid #bcbcbc;
+      }
