@@ -14,7 +14,8 @@
 	<header>
 	<a href="{%url 'index_page'%}"><strong>오</strong>픈<strong>소</strong>스동아<strong>리</strong></a>
 	
-
+	<div class = "user_info">
+	<ul>
         {% if user.is_active %}
 			<li>{{user.username}}</li>
   			<li><a href="{% url 'logout' %}">Logout</a></li>
@@ -26,7 +27,8 @@
     </form>
       <li><a href="{% url 'admin:index' %}">Admin</a></li>
       {% endif %}
-
+      </ul>
+</div>
 
 	<nav class="top_nav">
 		<ul>
