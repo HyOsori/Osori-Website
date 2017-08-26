@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import InquiryForm
 
+from django.contrib import messages
+
 # Create your views here.
 
 def index(request):
@@ -23,7 +25,8 @@ def contact(request):
 		form = InquiryForm(request.POST)
 		if form.is_valid():
 			inquiry = form.save()
-			return redirect('index_page')
+			messages.success(request, '문의사항이 성공적으로 전달되었습니다.')
+			return redirect('contact')
 	else:
 		form = InquiryForm()
 	return render(request, 'website/contact.html', {'form': form})

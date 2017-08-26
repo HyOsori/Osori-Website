@@ -1,6 +1,41 @@
 {% extends 'website/template_aboutnav.html' %}
 {% block articled %}
 <h1> 오시는 길 </h1>
-지도가 들어갈 자리에요
 
+<div id="map"></div>
+    <script>
+      function initMap() {
+      	
+         var contentString = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h3 id="firstHeading" class="firstHeading">산학기술관 518호</h3>'+
+            '<div id="bodyContent">'+
+            '<p> 건물 입구가 2층입니다. </p>'+
+            '</div>'+
+            '</div>';
+
+        var osori = {lat: 37.555455, lng: 127.049235};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 17,
+          center: osori
+        });
+        var marker = new google.maps.Marker({
+          position: osori,
+          map: map,
+          title: 'Osori'
+        });
+
+        var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0d5o27fAetuAKcRj4k8U4MEWhnDRIJz0&callback=initMap">
+    </script>
 {% endblock articled %}
