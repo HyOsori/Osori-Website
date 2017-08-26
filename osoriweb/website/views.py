@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from .forms import InquiryForm
 
 # Create your views here.
 
@@ -18,4 +19,11 @@ def about_location(request):
 	return render(request, 'website/about_location.html',{})
 
 def contact(request):
-	return render(request, 'website/contact.html',{})
+	if request.method == "POST":
+		form = InquiryForm(request.POST)
+		if form.is_valid():
+			inquiry = form.save()
+			return redirect('index_page')
+	else:
+		form = InquiryForm()
+	return render(request, 'website/contact.html', {'form': form})
