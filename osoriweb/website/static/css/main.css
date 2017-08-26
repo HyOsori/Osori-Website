@@ -14,7 +14,7 @@
         list-style-type: none;
       }
 
-       .user_info > ul > li {
+      .user_info > ul > li {
         display: inline;
         padding-right: 20px;
       }
@@ -25,12 +25,12 @@
         padding: 20px;
       }
       .top_nav > ul {
-                list-style-type: none;
+        list-style-type: none;
 
       }
       .top_nav > ul > li {
-                padding-right: 20px;
-                display: inline;
+        padding-right: 20px;
+        display: inline;
       }
 
       .container {
@@ -58,3 +58,33 @@
         clear: both;
         padding: 20px;
       }
+
+      .contact_sub {
+        text-align : center;
+        margin-bottom: 20px;
+      }
+
+      table.contact_form {
+        border-collapse: separate;
+        border-spacing: 1px;
+        text-align: left;
+        line-height: 1.5;
+        border-top: 1px solid #ccc;
+        padding-bottom: 10px;
+        margin: 0px auto;
+      }
+      table.contact_form th {
+        width: 20%;
+        padding: 10px;
+        font-weight: bold;
+        border-bottom: 1px solid #ccc;
+        background: #efefef;
+        vertical-align : middle;
+      }
+      table.contact_form td {
+        width: 50%;
+        padding: 10px;
+        vertical-align: middle;
+        border-bottom: 1px solid #ccc;
+      }
+

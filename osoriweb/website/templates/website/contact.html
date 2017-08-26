@@ -1,4 +1,17 @@
 {% extends 'website/template.html' %}
 {% block content %}
- <h1 align="center">질문 폼 만드는 곳 ! </h1>
+<div class = "contact_sub">
+	<h2>Contact us</h2>
+	<p>
+		동아리와 관련된 문의사항을 남겨주시면 확인 후 이메일로 연락 드리겠습니다.
+	</p>
+</div>
+<form method="POST" class="post-form">{% csrf_token %}
+	<table class="contact_form">
+	{{ form.as_table }}
+	</table>
+	<div align="center">
+	<button type="submit" class="save btn btn-default" id = "submit_button">제출하기</button></div>
+</form>
+
 {% endblock content %}
