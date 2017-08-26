@@ -59,6 +59,7 @@
         padding: 20px;
       }
 
+/* contact form */
       .contact_sub {
         text-align : center;
         margin-bottom: 20px;
@@ -88,3 +89,8 @@
         border-bottom: 1px solid #ccc;
       }
 
+/* location tab */
+       #map {
+        height: 400px;
+        width: 80%;
+       }
