@@ -1,0 +1,14 @@
+{% extends 'website/template.html' %}
+{% block content %}
+
+<nav class = "left_nav">
+<ul>
+	<li><a href="{%url 'change_password'%}">비밀번호 변경</a></li>
+</ul>
+</nav>
+
+<div class = "container">
+{% block articled %}
+{% endblock articled %}
+</div>
+{% endblock content %}
