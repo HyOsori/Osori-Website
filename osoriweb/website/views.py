@@ -68,3 +68,5 @@ def change_password(request):
 	return render(request, 'registration/change_password.html', { 'form': form})
 
 
+def change_profile(request):
+	return render(request,'registration/change_profile.html',{})
