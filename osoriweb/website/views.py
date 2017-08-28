@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import InquiryForm
-
+from .models import History
+from django.http import HttpResponse
 from django.contrib import messages
 
 from django.views.generic import TemplateView
@@ -67,4 +68,8 @@ def change_password(request):
 		form = PasswordChangeForm(request.user)
 	return render(request, 'registration/change_password.html', { 'form': form})
 
-
+def history(request):
+	if request.method == 'POST':
+		History.objects.create(year=request.year, month=request.month, content=request.content)
+	if request.method == 'GET':
+		return HttpResponse(History.objects.all())

@@ -12,3 +12,11 @@ class Inquiry(models.Model):
 
 	def __str__(self):
 		return self.title
+
+class History(models.Model):
+    year = models.CharField(max_length=4)
+    month = models.CharField(max_length=2)
+    content = models.TextField()
+
+    def __str__(self):
+        return year + ". " + month
