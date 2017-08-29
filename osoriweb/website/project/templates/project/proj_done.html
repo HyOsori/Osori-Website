@@ -1,5 +1,17 @@
 {% extends 'project/template_projnav.html' %}
 {% block articled %}
 <h1> 완료된 프로젝트 </h1>
-여기를 채워주시면 됩니당!
+{% for project in projects %}
+    <div>
+        <h3><a href="{{project.github_url}}">{{ project.title }}</a></h3>
+        <p>{{project.subtitle}}</p>
+        <p>
+        {{project.github_url}}<br>
+        {{project.start_period}} ~ {{project.end_period}}<br>
+        <br>contributor : {{ project.contributor|linebreaksbr }}</p>
+        <br>
+    </div>
+{% endfor %}
+
+
 {% endblock articled %}
