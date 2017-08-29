@@ -94,3 +94,30 @@
         height: 400px;
         width: 80%;
        }
+
+/* project tab */
+      .proj {
+        padding: 20px;
+
+      }
+      .proj_titles{
+        display: inline;
+      }
+      #proj_title{
+        color: black;
+        font-weight: bold;
+        font-size: 25px;
+
+      }
+      #proj_period{
+        float:right;
+        color: #888;
+      }
+      #proj_subtitle{
+        color: #888;
+        font-size :20px;
+      }
+      .proj_contributor{
+        color: #000;
+        font-size :18px;        
+      }

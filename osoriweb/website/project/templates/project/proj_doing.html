@@ -3,15 +3,15 @@
 <h1> 진행중인 프로젝트 </h1>
 
 {% for project in projects %}
-    <div>
-        <h3><a href="{{project.github_url}}">{{ project.title }}</a></h3>
-        <p>{{project.subtitle}}</p>
-        <p>
-        {{project.github_url}}<br>
-        {{project.start_period}} ~ <br>
-        <br>contributor : {{ project.contributor|linebreaksbr }}</p>
-        <br>
-    </div>
+<div class="proj">
+	<div class="proj_titles">
+		<a href="{{project.github_url}}" id="proj_title">{{ project.title }}</a>
+		<div id="proj_period">{{project.start_period}}</div>
+	</div>
+	<div id="proj_subtitle">{{project.subtitle}}</div>
+	<div class="proj_contributor">
+		contributor : {{ project.contributor|linebreaksbr }}
+	</div>
+</div>
 {% endfor %}
-
 {% endblock articled %}
