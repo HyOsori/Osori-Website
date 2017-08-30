@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from .forms import InquiryForm
 from .models import History
-from django.http import HttpResponse
-from django.contrib import messages
 
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
+from django.contrib import messages
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView
 from .forms import CreateUserForm
@@ -68,8 +70,31 @@ def change_password(request):
 		form = PasswordChangeForm(request.user)
 	return render(request, 'registration/change_password.html', { 'form': form})
 
+@csrf_exempt
 def history(request):
 	if request.method == 'POST':
-		History.objects.create(year=request.year, month=request.month, content=request.content)
+		year = request.POST['year']
+		month = request.POST['month']
+		content = request.POST['content']
+		try:
+			history = History(year=year, month=month, content=content)
+			history.save()
+		except:
+			return HttpResponse('Fail')
+		return HttpResponse("add history")
+
 	if request.method == 'GET':
 		return HttpResponse(History.objects.all())
+
+	if request.method == 'DELETE':
+		id=request.GET['id']
+		try:
+			history=History.objects.get(id=id)
+		except:
+			return HttpResponse('fail')
+			history.delete()
+		return HttpResponse("delete success")
+
+def about_history(request):
+	history = History.objects.all().order_by('year', 'month').reverse()
+	return render(request, 'website/about_history.html', {'history':history})

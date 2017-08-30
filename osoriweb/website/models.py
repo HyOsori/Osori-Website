@@ -14,9 +14,10 @@ class Inquiry(models.Model):
 		return self.title
 
 class History(models.Model):
+    id = models.AutoField(primary_key=True)
     year = models.CharField(max_length=4)
     month = models.CharField(max_length=2)
     content = models.TextField()
 
     def __str__(self):
-        return year + ". " + month
+        return self.year + ". " + self.month

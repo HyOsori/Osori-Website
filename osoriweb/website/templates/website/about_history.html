@@ -1,12 +1,12 @@
 {% extends 'website/template_aboutnav.html' %}
 {% block articled %}
 <h1> 동아리 연표 </h1>
-{% for h in History %}
     <div class="history">
         <div class="data">
-            {h.year.__str__()}
-            <p>{post.content}</p>
+            {% for his in history %}
+            <div>{{ his }}</div>
+            <div>{{ his.content }}</div>
+            {% endfor %}
         </div>
     </div>
-{% endfor %}
 {% endblock articled %}
