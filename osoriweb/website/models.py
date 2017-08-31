@@ -1,6 +1,15 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    '''
+    username, first_name, last_name, email, password, groups, user_permission, is_staff, is_active, 
+    '''
+    department = models.CharField(max_length=30, blank=False)
+    phone_number = models.CharField(max_length=30, blank=False)
+    github_id = models.CharField(max_length=30)
 
 class Inquiry(models.Model):
 	name = models.CharField(max_length=30)
