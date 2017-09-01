@@ -23,14 +23,66 @@ class InquiryForm(forms.ModelForm):
 
 
 class UserForm(forms.ModelForm):
+    error_messages = {
+        'password_mismatch': "The two password fields didn't match.",
+    }
+    username = forms.RegexField(label="아이디", max_length=30,
+                                regex=r'^[\w.@+-]+$',
+                                help_text="문자 숫자 포함 30자 이하, 특수문자 @/./+/-/_ ",
+                                error_messages={
+                                    'invalid': "This value may contain only letters, numbers and "
+                                               "@/./+/-/_ characters."},
+                                widget=forms.TextInput(attrs={
+                                    'class': 'form-control',
+                                    'required': 'true',
+                                }))
+    password1 = forms.CharField(label="비밀번호",
+                                widget=forms.PasswordInput)
+    password2 = forms.CharField(label="비밀번호 확인",
+                                widget=forms.PasswordInput)
+    email = forms.EmailField(label='이메일', required=True, widget=forms.EmailInput(
+        attrs={
+            'class': 'form-control',
+            'required': 'True',
+        }
+    ))
     class Meta:
         model = User
-        fields=('username', 'password', 'email', 'first_name', 'last_name')
+        fields=('username', 'email')
 
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError(
+                self.error_messages['password_mismatch'],
+                code='password_mismatch',
+            )
+        return password2
+
+    def save(self, commit=True):
+        user = super(UserForm, self).save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
 
 
 class UserProfileForm(forms.ModelForm):
+    department = forms.CharField(label='전공', required=True, max_length=15)
+    phone_number = forms.RegexField(regex=r'^\+?1?\d{9,15}$',
+                                    error_messages={
+                                        'invalid':"Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."})
+    github_id = forms.RegexField(label="Github", max_length=30,
+                                regex=r'^[\w.@+-]+$',
+                                error_messages={
+                                    'invalid': "This value may contain only letters, numbers and "
+                                               "@/./+/-/_ characters."},
+                                widget=forms.TextInput(attrs={
+                                    'class': 'form-control',
+                                    'required': 'true',
+                                }))
     class Meta:
         model = UserProfile
-        extends = ['user',]
-        fields = (''department', 'phone_number', 'github_id')
+        fields = ('department', 'phone_number', 'github_id')
+
