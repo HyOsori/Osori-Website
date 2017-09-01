@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import InquiryForm
+from .forms import InquiryForm, UserForm, UserProfileForm
 from .models import History
 
 from django.http import HttpResponse
@@ -8,7 +8,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView
-from .forms import CreateUserForm
 from django.core.urlresolvers import reverse_lazy
 
 from django.contrib.auth import update_session_auth_hash
@@ -43,18 +42,14 @@ def contact(request):
 		form = InquiryForm()
 	return render(request, 'website/contact.html', {'form': form})
 
-
-
 class CreateUserView(CreateView):
 	template_name = 'registration/signup.html'
-	form_class =  CreateUserForm
+	form_class = UserProfileForm
 	success_url = reverse_lazy('create_user_done')
 
 
 class RegisteredView(TemplateView):
 	template_name = 'registration/signup_done.html'
-
-
 
 def change_password(request):
 	if request.method == 'POST':
@@ -98,3 +93,4 @@ def history(request):
 def about_history(request):
 	history = History.objects.all().order_by('year', 'month').reverse()
 	return render(request, 'website/about_history.html', {'history':history})
+
