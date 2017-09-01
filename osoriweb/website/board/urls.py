@@ -2,9 +2,11 @@ from django.conf.urls import url, include
 from . import views
 
 urlpatterns = [
-	url('^$', views.board, name="board"),
-	url('^noti_board/', views.noti_board, name="noti_board"),
-	url('^info_board/', views.info_board, name="info_board"),
-	url('^free_board/', views.free_board, name="free_board"),
-
+    url(r'^board/$', views.select_articles, name="board"),
+    url(r'^board/(?P<board_name>[\w\-]+)$', views.select_articles, name="board_home"),
+    url(r'^board/(?P<board_name>[\w\-]+)/(?P<page>\d+)$', views.select_articles, name="board_page"),
+    url(r'^board/(?P<board_name>[\w\-]*)/(?P<pk>\d+)/detail$', views.read_article, name='read_article'),
+    url(r'^board/(?P<board_name>[\w\-]*)/new/$', views.create_article, name='create_article'),
+    url(r'^board/(?P<board_name>[\w\-]*)/(?P<pk>\d+)/edit/$', views.edit_article, name='update_article'),
+    url(r'^board/(?P<board_name>[\w\-]*)/(?P<pk>\d+)/remove/$', views.remove_article, name='delete_article'),
 ]

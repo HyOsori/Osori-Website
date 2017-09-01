@@ -1,14 +1,95 @@
-from django.shortcuts import render,redirect
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render_to_response
+from django.utils import timezone
+from .models import Article
+from .models import BoardType
+from .forms import ArticleForm
 
-# Create your views here.
-def board(request):
-    return redirect('noti_board')
 
-def noti_board(request):
-    return render(request, 'board/noti_board.html', {})
+def select_articles(request, **kwargs):
 
-def info_board(request):
-    return render(request, 'board/info_board.html', {})
+    try:
+        if kwargs['board_name'] != None:
+            board_type = BoardType(kwargs['board_name'])
+    except Exception:
+        board_type = BoardType.NOTI
 
-def free_board(request):
-    return render(request, 'board/free_board.html', {})
+    try:
+        if kwargs['page'] != None:
+            page = kwargs['page']
+    except Exception:
+        page = 1
+
+    articles = Article.objects.filter(created_date__lte=timezone.now()).filter(type=board_type).order_by('-created_date')
+
+    paginator = Paginator(articles, 10)  # Show 10 contacts per page
+
+    try:
+        pagination = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        pagination = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        pagination = paginator.page(paginator.num_pages)
+    print(board_type)
+    return render(request, 'board/board.html', {
+        'title': board_type.get_title(),
+        'articles': articles,
+        'pagination': pagination
+    })
+
+
+def read_article(request, board_name, pk):
+
+    try:
+        board_type = BoardType(board_name)
+    except Exception:
+        board_type = BoardType.NOTI
+
+    try:
+        article = get_object_or_404(Article, type=board_type, pk=pk)
+        article.article_viewed()
+    except:
+        return render_to_response('board/no_result.html')
+
+    return render(request, 'board/read_article.html', {'article': article})
+
+# TODO: 작성 권한이 있는지 확인, 폼 대신 html로 대체
+@login_required
+def create_article(request, board_name):
+    if request.method == "POST":
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.author = request.user
+            article.save()
+            return redirect('select_articles', board_name=board_name, pk=article.pk)
+    else:
+        form = ArticleForm()
+
+    return render(request, 'board/new_article.html', {'form': form})
+
+# TODO: 작성자가 맞는지 확인, 폼 대신 html로 대체
+@login_required
+def edit_article(request, board_name, pk):
+    article = get_object_or_404(Article, pk=pk)
+    if request.method == "POST":
+        form = ArticleForm(request.POST, instance=article)
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.author = request.user
+            article.save()
+            return redirect('article_detail', board_name=board_name, pk=article.pk)
+    else:
+        return render(request, 'board/edit_article.html', {'article': article})
+
+# TODO: 작성자가 맞는지 확인
+@login_required
+def remove_article(request, board_name, pk):
+    article = get_object_or_404(Article, type=board_name, pk=pk)
+    article.delete()
+
+    return redirect('select_articles')

@@ -1,0 +1,57 @@
+{% extends 'board/template_board_nav.html' %}
+{% block articled %}
+
+<div class="ui center aligned container" style="width: 50%;">
+    <div class="ui grid">
+        <div class="three wide column"></div>
+        <div class="ten wide column">
+            <h1>
+                <a href="">
+                    {{ title }}
+                </a>
+            </h1>
+        </div>
+        {% if user.is_authenticated %}
+        <div class="three wide column right aligned">
+            <br>
+            <a style="" href="{% url 'article_new' %}">new post</a>
+        </div>
+        {% endif %}
+    </div>
+    <table class="ui celled table">
+        <thead>
+            <th>번호</th>
+            <th>제목</th>
+            <th>글쓴이</th>
+            <th>작성일</th>
+            <th>댓글수</th>
+            <th>조회수</th>
+        </thead>
+        <tbody>
+    {% for article in articles %}
+        <tr>
+            <td>{{ article.pk }}</td>
+            <td><a href="{% url 'article_detail' pk=article.pk %}">{{ article.title }}</a></td>
+            <td>{{ article.author }}</td>
+            <td>{{ article.created_date }}</td>
+            <td>{{ article.comments.count }}</td>
+            <td>{{ article.view_count }}</td>
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+    <div>
+        {% if pagination.has_previous %}
+            <a href="?page={{ pagination.previous_page_number }}">&nbsp;&lt;&nbsp;</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ pagination.number }} of {{ pagination.paginator.num_pages }}.
+        </span>
+
+        {% if pagination.has_next %}
+            <a href="?page={{ pagination.next_page_number }}">&nbsp;&gt;&nbsp;</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock articled %}
