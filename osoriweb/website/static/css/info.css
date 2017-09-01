@@ -1,0 +1,144 @@
+/*
+Info Board
+*/
+
+.tTitle{
+	text-align : right;
+	margin-right : 15%;
+}
+
+.tboard{
+	border-collapse : collapse;
+	border : 1px solid #ddd;
+	text-align : center;
+	clear: right;
+	width : 70%;
+	margin-left : 8%;
+	margin-right : 15%;
+}
+.tboard th{
+	background-color:#64C16D;
+	color: #fff;
+	height : 40px;
+}
+.tboard tr{
+	height : 30px;
+}
+.tboard tr:nth-child(even){
+	background-color:#F3FFF4;
+}
+.tboard tr:nth-child(odd){
+	background-color:#ACF2B3;
+}
+
+a{
+	text-decoration:none;
+}
+a:hover{
+	color : orange;
+}
+
+.pagination {
+	position : relative;
+	text-align : center;
+	margin-top : 30px;
+}
+
+
+
+/*
+Info Detail
+*/
+
+.articleT{
+	border-collapse : collapse;
+	border : 1px solid #ddd;
+	text-align : center;
+	clear: left;
+	width : 70%;
+	margin-left : 5%;
+	margin-right : 15%;
+}
+
+.articleT .articleText{
+	height : 500px;
+	vertical-align : top;
+	text-align : left;
+	padding : 10px 10px 10px 10px;
+}
+
+.articleT th{
+	background-color : #64C16D;
+	color : white;
+	height : 35px;
+	text-transform : uppercase;
+}
+
+.article_menu{
+	text-align : right;
+	margin-right : 10%;
+	margin-bottom : 20px;
+}
+
+.article_menu a{
+	color : black;
+}
+
+.postControl{
+	text-align : right;
+	margin-right : 15%;
+	margin-bottom : 30px;
+}
+
+.postControl .removeInfo{
+	margin-left : 15px;
+}
+.comment{
+	margin-left : 8%;
+	margin-top : 40px;
+	margin-right : 30%;
+}
+
+.comment form{
+	margin-bottom : 30px;
+}
+
+.comment .commentInput{
+	width : 90%;
+}
+
+.comments {
+	width : 100%;
+	border-top : 1px solid #ddd;
+}
+
+.comments .author, .date, .control{
+	display:inline-block;
+}
+
+.comments .date{
+	margin-left : 20px;
+}
+
+.comments .control{
+	float : right;
+}
+
+.comments .commentText{
+	margin-top : 10px;
+	margin-bottom : 10px;
+}
+
+.comments .commentLikes{
+	width : 100%;
+}
+
+.comments .commentLikes .link, .count{
+	display:inline-block;
+	margin-bottom : 10px;
+}
+
+
+iframe{
+	padding-right : 15%;
+}
