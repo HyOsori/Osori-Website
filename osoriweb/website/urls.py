@@ -12,7 +12,7 @@ urlpatterns = [
  	url(r'^about/introduce', views.about_introduce, name='about_introduce'),
     url(r'^contact/$', views.contact, name='contact'),
 
-    url(r'^accounts/signup$', views.CreateUserView.as_view(), name = 'signup'),
+    url(r'^accounts/signup$', views.user_register_view, name = 'signup'),
     url(r'^accounts/login/done$', views.RegisteredView.as_view(), name = 'create_user_done'),
 
     url(r'^password/$', views.change_password, name='change_password'),
