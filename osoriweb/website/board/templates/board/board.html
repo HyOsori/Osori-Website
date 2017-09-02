@@ -14,7 +14,7 @@
         {% if user.is_authenticated %}
         <div class="three wide column right aligned">
             <br>
-            <a style="" href="{% url 'article_new' %}">new post</a>
+            <a style="" href="{% url 'create_article' board_name %}">new post</a>
         </div>
         {% endif %}
     </div>
@@ -31,7 +31,7 @@
     {% for article in articles %}
         <tr>
             <td>{{ article.pk }}</td>
-            <td><a href="{% url 'article_detail' pk=article.pk %}">{{ article.title }}</a></td>
+            <td><a href="{% url 'read_article' pk=article.pk %}">{{ article.title }}</a></td>
             <td>{{ article.author }}</td>
             <td>{{ article.created_date }}</td>
             <td>{{ article.comments.count }}</td>

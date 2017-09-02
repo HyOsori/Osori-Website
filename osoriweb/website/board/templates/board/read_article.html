@@ -1,5 +1,84 @@
 {% extends 'board/template_board_nav.html' %}
 {% block articled %}
 <h1> {{ title }} </h1>
-여기를 채워주시면 됩니당!
+
+<style>
+    .caption {
+        background-color: #FFF0F0
+    }
+
+</style>
+<div class="ui center aligned container">
+    <div class="ui grid">
+        <div class="row" style="padding-bottom: 0px; ">
+            {% if user.is_authenticated and user.username == article.author.username %}
+            <div class="four sixteen column right aligned">
+                <a href="{% url 'article_edit' pk=article.pk %}">edit</a>
+                &nbsp;&nbsp;
+                <a href="{% url 'article_remove' pk=article.pk %}">remove</a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="row" style="padding-left: 50px; padding-top: 0px">
+            <table class="ui celled table" id="article">
+                <tr>
+                    <td class="caption">글제목</td>
+                    <td colspan="5">{{ article.title }}</td>
+                </tr>
+                <tr>
+                    <td class="caption">작성자</td>
+                    <td>{{ article.author.username }}</td>
+                    <td class="caption">작성일</td>
+                    <td>{{ article.created_date }}</td>
+                    <td class="caption">조회수</td>
+                    <td>{{ article.view_count }}</td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <p>{{ article.text | linebreaksbr }}</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="ui left aligned segment" style="clear: both;">
+    <hr>
+    <h1>New comment</h1>
+
+    <div class="ui left aligned segment" style="margin: 0px; width: 50%;">
+        <form method="POST" action="{% url 'add_comment_to_article' pk=article.pk %}" class="post-form">{% csrf_token %}
+            <div class="ui left aligned container">
+                <div class="ui left aligned form field">
+                    <label for="id_text">Text:</label>
+                    <textarea name="text" cols="40" rows="10" required="" id="id_text"></textarea>
+                </div>
+            </div>
+            <br>
+            <button type="submit" class="ui right floated primary button">Save</button>
+            <input type="hidden" value="{{ user.username }}" name="author">
+            <br>
+            <br>
+        </form>
+    </div>
+
+    {% for comment in article.comments.all %}
+
+    <div class="comment">
+        <div class="date">{{ comment.created_date }}</div>
+        {% if user.is_authenticated and user.username == comment.author %}
+        <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}">remove</a>
+        {% endif %}
+        <strong>{{ comment.author }}</strong>
+        <p>{{ comment.text | linebreaks }}</p>
+    </div>
+
+    {% empty %}
+
+    <p>No comments here yet :) </p>
+
+    {% endfor %}
+</div>
 {% endblock articled %}

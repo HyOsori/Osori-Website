@@ -5,8 +5,11 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.validators import RegexValidator
 
+
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
+
+    user = models.OneToOneField(User, related_name='UserProfile', on_delete=models.CASCADE)
+
     '''
     username, first_name, last_name, email, password, groups, user_permission, is_staff, is_active, 
     '''
@@ -16,25 +19,29 @@ class UserProfile(models.Model):
     phone_number = models.CharField(max_length=15, validators=[phone_regex], blank=True)  # validators should be a list
     github_id = models.CharField(max_length=30, blank=False)
 
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
 
+
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+    instance.UserProfile.save()
+
 
 class Inquiry(models.Model):
-	name = models.CharField(max_length=30)
-	email = models.EmailField()
-	title = models.CharField(max_length=200)
-	content = models.TextField()
-	created_date = models.DateTimeField(default=timezone.now)
-	answered = models.BooleanField(default=False)
+    name = models.CharField(max_length=30)
+    email = models.EmailField()
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+    answered = models.BooleanField(default=False)
 
-	def __str__(self):
-		return self.title
+    def __str__(self):
+        return self.title
+
 
 class History(models.Model):
     id = models.AutoField(primary_key=True)
