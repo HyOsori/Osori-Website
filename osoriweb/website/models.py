@@ -6,7 +6,7 @@ from django.dispatch import receiver
 from django.core.validators import RegexValidator
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name='UserProfile', on_delete=models.CASCADE)
     '''
     username, first_name, last_name, email, password, groups, user_permission, is_staff, is_active, 
     '''
@@ -23,7 +23,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+    instance.UserProfile.save()
 
 class Inquiry(models.Model):
 	name = models.CharField(max_length=30)
