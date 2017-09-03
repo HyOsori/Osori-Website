@@ -20,12 +20,35 @@ def select_articles(request, **kwargs):
         if kwargs['page'] is not None:
             page = kwargs['page']
     except Exception:
-
         page = 1
 
-    articles = Article.objects.filter(created_date__lte=timezone.now()).filter(type=board_type).order_by('-created_date')
+    try:
+        if request.GET['method'] is not None and request.GET['keyword'] is not None:
+            method = request.GET['method']
+            keyword = request.GET['keyword']
+        else:
+            method = ""
+            keyword = ""
+    except Exception:
+        method = ""
+        keyword = ""
 
-    paginator = Paginator(articles, 10)  # Show 10 contacts per page
+    if method == 'author':
+        articles = Article.objects.filter(created_date__lte=timezone.now())\
+            .filter(type=board_type.value)\
+            .filter(author__username__contains=keyword)\
+            .order_by('-created_date')
+    elif method == 'title':
+        articles = Article.objects.filter(created_date__lte=timezone.now())\
+            .filter(type=board_type.value)\
+            .filter(title__contains=keyword)\
+            .order_by('-created_date')
+    else:
+        articles = Article.objects.filter(created_date__lte=timezone.now()) \
+            .filter(type=board_type.value) \
+            .order_by('-created_date')
+
+    paginator = Paginator(articles, 2)  # Show 10 contacts per page
 
     try:
         pagination = paginator.page(page)
@@ -35,12 +58,66 @@ def select_articles(request, **kwargs):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         pagination = paginator.page(paginator.num_pages)
-    print(board_type)
+
+    return render(request, 'board/board.html', {
+        'title': board_type.get_title(),
+        'articles': pagination,
+        'board_name': board_type,
+        'method': method,
+        'keyword': keyword
+    })
+
+
+def search_articles(request, **kwargs):
+
+    try:
+        if kwargs['board_name'] is not None:
+            board_type = BoardType(kwargs['board_name'])
+    except Exception:
+        board_type = BoardType.NOTI
+
+    try:
+        if kwargs['page'] is not None:
+            page = kwargs['page']
+    except Exception:
+        page = 1
+
+    try:
+        if request.POST['method'] is not None:
+            method = request.POST['method']
+    except Exception:
+        method = 'title'
+
+    keyword = request.POST['keyword']
+
+    if method == 'author':
+        articles = Article.objects.filter(created_date__lte=timezone.now())\
+            .filter(type=board_type.value)\
+            .filter(author__username__contains=keyword)\
+            .order_by('-created_date')
+    else:
+        articles = Article.objects.filter(created_date__lte=timezone.now())\
+            .filter(type=board_type.value)\
+            .filter(title__contains=keyword)\
+            .order_by('-created_date')
+
+    paginator = Paginator(articles, 2)  # Show 10 contacts per page
+
+    try:
+        articles = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        articles = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        articles = paginator.page(paginator.num_pages)
+
     return render(request, 'board/board.html', {
         'title': board_type.get_title(),
         'articles': articles,
-        'pagination': pagination,
-        'board_name': board_type
+        'board_name': board_type,
+        'method': method,
+        'keyword': keyword
     })
 
 

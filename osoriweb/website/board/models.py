@@ -27,10 +27,11 @@ class BoardType(Enum):
         # get all members of the class
         members = inspect.getmembers(cls, lambda m: not (inspect.isroutine(m)))
         # filter down to just properties
-        props = [m for m in members if not (m[0][:2] == '__')]
+        props = [m for m in members if not (m[0][:2] == '__' or m[0] == 'name' or m[0] == 'value')]
+
         # format into django choice tuple
-        choices = tuple([(p[1], p[0]) for p in props])
-        print(choices)
+        choices = tuple([(p[1].value, BoardType(p[1]).get_title()) for p in props])
+
         return choices
 
 

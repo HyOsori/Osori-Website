@@ -5,6 +5,7 @@ urlpatterns = [
     url(r'^$', views.select_articles, name="board"),
     url(r'^(?P<board_name>[\w\-]+)$', views.select_articles, name="board_home"),
     url(r'^(?P<board_name>[\w\-]+)/(?P<page>\d+)$', views.select_articles, name="board_page"),
+    url(r'^(?P<board_name>[\w\-]+)/search$', views.search_articles, name="board_search"),
     url(r'^(?P<board_name>[\w\-]*)/(?P<pk>\d+)/detail$', views.read_article, name='read_article'),
     url(r'^(?P<board_name>[\w\-]*)/new/$', views.create_article, name='create_article'),
     url(r'^(?P<board_name>[\w\-]*)/(?P<pk>\d+)/edit/$', views.edit_article, name='update_article'),
