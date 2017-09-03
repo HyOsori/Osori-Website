@@ -23,12 +23,31 @@ Info Board
 }
 .tboard tr{
 	height : 30px;
+	border : 1px solid #ddd;
 }
 .tboard tr:nth-child(even){
 	background-color:#F3FFF4;
 }
 .tboard tr:nth-child(odd){
 	background-color:#ACF2B3;
+}
+.tboard td, .tboard th {
+  border: 1px solid #ddd;
+}
+
+.tboard tr:first-child th {
+  border-top: 0;
+}
+.tboard tr:last-child td {
+  border-bottom: 0;
+}
+.tboard tr td:first-child,
+.tboard tr th:first-child {
+  border-left: 0;
+}
+.tboard tr td:last-child,
+.tboard tr th:last-child {
+  border-right: 0;
 }
 
 a{
@@ -52,7 +71,6 @@ Info Detail
 
 .articleT{
 	border-collapse : collapse;
-	border : 1px solid #ddd;
 	text-align : center;
 	clear: left;
 	width : 70%;
@@ -74,6 +92,10 @@ Info Detail
 	text-transform : uppercase;
 }
 
+.articleT td, .articleT th, .articleT tr{
+	border: 1px solid #ddd;
+}
+
 .article_menu{
 	text-align : right;
 	margin-right : 10%;
@@ -82,6 +104,11 @@ Info Detail
 
 .article_menu a{
 	color : black;
+}
+
+.articleT .table-bordered{
+	border : 1px solid;
+	background-color : blue;
 }
 
 .postControl{

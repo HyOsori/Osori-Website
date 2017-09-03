@@ -7,7 +7,7 @@
     {% endif %}
 </div>
 
-<table border = "1" class = "tboard">
+<table class = "tboard">
 	<thead>
 		<tr>
 			<th>글 번호</th>
@@ -46,5 +46,12 @@
         <a href="?page={{ articles.next_page_number }}">next</a>
         {% endif %}
     </span>
+</div>
+
+<div>
+	<form method = "POST">{% csrf_token %}
+		{{ form.as_p }}
+		<input type = "submit" class="save btn btn-default" value = "검색">
+	</form>
 </div>
 {% endblock articled %}

@@ -18,3 +18,6 @@ class InfoCommentForm(forms.ModelForm):
     class Meta:
         model = InfoComment
         fields = ('author', 'text',)
+
+class SearchForm(forms.Form):
+	searchKey = forms.CharField(max_length = 30)
