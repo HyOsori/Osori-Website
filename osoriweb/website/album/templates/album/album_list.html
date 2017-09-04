@@ -1,4 +1,33 @@
 {% extends 'website/template.html' %}
 {% block content %}
- <h1 align="center">앨범이 들어갈 자리</h1>
+
+<div class="photolist">
+	{% for photo in photos  %}
+	<a href="{%url 'album_detail' pk=photo.pk %}">
+    <div>
+		{% if photo.image %}
+		<img src="{{ photo.image.url }}" alt="" width=200>
+		<br>{{photo.title}}
+		{% endif %}
+	</div>
+    </a>
+	{% endfor %}
+</div>
+
+
+<div class="pagination">
+    <span class="step-links">
+        {% if photos.has_previous %}
+            <a href="?page={{ photos.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ photos.number }} of {{ photos.paginator.num_pages }}.
+        </span>
+
+        {% if photos.has_next %}
+            <a href="?page={{ photos.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock content %}

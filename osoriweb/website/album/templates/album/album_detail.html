@@ -1,0 +1,26 @@
+{% extends 'website/template.html' %}
+{% block content %}
+<div>
+		{% if photo.image %}
+    <table border="1">
+        <thead>
+        <tr>
+            <td>{{photo.created_date}}</td>
+
+        </tr>
+        <tr>
+            <th>{{photo.title}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+            <img src="{{ photo.image.url }}" alt="">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+        {% endif %}
+</div>
+
+{% endblock content %}
