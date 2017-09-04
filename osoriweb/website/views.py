@@ -45,21 +45,21 @@ def contact(request):
 def user_register_view(request):
 	if request.method =='POST':
 		user_form = UserForm(request.POST)
-		user_profile_form = UserProfileForm(request.POST)
-		if user_form.is_valid() and user_profile_form.is_valid():
-			user_form.save()
-			user_profile_form.save()
+		if user_form.is_valid():
+			user = user_form.save()
+			user.refresh_from_db()
+			user.profile.department = user_form.cleaned_data.get('department')
+			user.profile.phone_number = user_form.cleaned_data.get('phone_number')
+			user.profile.github_id = user_form.cleaned_data.get('github_id')
+			user.save()
 			messages.success(request, '회원 가입이 완료되었습니다.')
-			return redirect('login')
+			return redirect('login/done')
 		else:
 			messages.error(request, ('에러 발생'))
 	else:
 		user_form =UserForm()
-		user_profile_form= UserProfileForm()
-	return render(request, 'registration/signup.html', {
-		'user_form':user_form,
-		'user_profile_form':user_profile_form
-		})
+		return render(request, 'registration/signup.html', {
+		'user_form':user_form})
 
 class RegisteredView(TemplateView):
 	template_name = 'registration/signup_done.html'

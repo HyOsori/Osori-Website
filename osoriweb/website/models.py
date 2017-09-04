@@ -5,8 +5,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.validators import RegexValidator
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, related_name='UserProfile', on_delete=models.CASCADE)
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
     '''
     username, first_name, last_name, email, password, groups, user_permission, is_staff, is_active, 
     '''
@@ -19,7 +20,7 @@ class UserProfile(models.Model):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        UserProfile.objects.create(user=instance)
+        Profile.objects.create(user=instance)
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
