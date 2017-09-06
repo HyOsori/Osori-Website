@@ -4,7 +4,7 @@ from django.utils import timezone
 
 class Photo(models.Model):
     title = models.CharField(max_length=100)
-    image = models.ImageField(blank=True)
+    image = models.ImageField(blank=True, upload_to='album')
     created_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
