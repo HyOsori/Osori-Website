@@ -16,5 +16,8 @@ urlpatterns = [
     url(r'^accounts/login/done$', views.RegisteredView.as_view(), name = 'create_user_done'),
 
     url(r'^password/$', views.change_password, name='change_password'),
-    url(r'^history/$', views.history, name='History'),
+
+    url(r'^history/$', views.history, name='history'),
+    url(r'^summernote/', include('django_summernote.urls')),
+    
 ]

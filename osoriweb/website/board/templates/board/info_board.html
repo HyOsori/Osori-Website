@@ -1,5 +1,57 @@
 {% extends 'board/template_boardnav.html' %}
 {% block articled %}
 <h1> 정보 게시판 </h1>
-여기를 채워주시면 됩니당!
+<div class = "tTitle">
+    {% if user.is_staff %}
+    <a href="{% url 'info_new' %}" class="tTitleMenu"><span class = "glyphicon glyphicon-pencil">New Post</span></a>
+    {% endif %}
+</div>
+
+<table class = "tboard">
+	<thead>
+		<tr>
+			<th>글 번호</th>
+			<th>제목</th>
+			<th>작성 일자</th>
+			<th>작성자</th>
+			<th>조회수</th>
+			<th>댓글 수</th>
+		</tr>
+	</thead>
+	<tbody>
+    {% for article in articles %}
+	    <tr>
+	        <td>{{ article.pk }}</td>
+	        <td><a href="{% url 'info_detail' pk=article.pk %}">{{ article.title }}</a></td>
+	        <td>{{ article.created_date }}</td>	
+	        <td>{{ article.author }}</td>
+	        <td>{{ article.view_count }}</td>
+	        <td>{{ article.comments.count }}</td>
+	    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if articles.has_previous %}
+        <a href="?page={{ articles.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ articles.number }} of {{ articles.paginator.num_pages }}.
+        </span>
+
+        {% if articles.has_next %}
+        <a href="?page={{ articles.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+
+<div>
+	<form method = "POST">{% csrf_token %}
+		{{ form.as_p }}
+		<input type = "submit" class="save btn btn-default" value = "검색">
+	</form>
+</div>
 {% endblock articled %}
