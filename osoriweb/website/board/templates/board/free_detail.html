@@ -1,0 +1,16 @@
+{% extends 'board/template_boardnav.html' %}
+{% block articled %}
+	<h1></h1>
+	<form method="POST">{% csrf_token %}
+		{{ form.as_p }}
+		 <button id="modifybtn"  type = "submit" class = "save btn btn-default">수정 </button>
+	</form>
+	<table>
+	<tr>
+		<td><label>{{ comment.author }} </label></td>
+		<td><label>{{ comment.text }}</label></td>
+		<td><label>{{ comment.published_date }}</label></td>
+	</tr>
+	
+	</table>
+{% endblock articled %}

@@ -1,0 +1,57 @@
+{% extends 'board/template_boardnav.html' %}
+{% block articled %}
+	>자유게시글<br>
+	<div class="detailTitle" >
+		<span>제목 | {{ post.title }}</span>
+	</div>
+	<div class="detailA" >
+		<span>작성자 | {{ post.author }}</span>
+	</div>
+	<div class="detailS">
+		<span>등록일 | {{ post.published_date }} </span> 
+	</div>
+	<div class="detailV">
+		<span>조회수 | {{ post.view_count }}</span>
+	</div>
+	
+	
+	<div class="detailText" >
+		<span> {{ post.text }}</span>
+	</div>
+
+<!--
+	<table class="detailTable">
+	<tr class="detailTitle" colspan="2">
+		<td>제목 | {{ post.title }}</a></td><td></td>
+	</tr>
+	<tr class="detailTr">
+		<td>등록일 | {{ post.published_date }} </td> <td>조회수 | {{ post.view_count }}</td>
+	</tr>
+	<tr class="detailTr" colspan="2">
+		<td>작성자 | {{ post.author }}</td><td></td>
+	</tr>
+	<tr class="detailTr_text" colspan="2">
+		<td> {{ post.text }}</td><td></td>
+	</tr>
+	</table>
+	-->
+
+		<button id="listbtn" class = "save btn btn-default"><a href="{% url 'free_board' %}">목록 </a></button>
+		<button id="deletebtn" class = "save btn btn-default"><a href="{% url 'free_delete' pk=post.pk %}">삭제</a></button>
+		<button id="modifybtn" class = "save btn btn-default"><a href="{% url 'free_detail' pk=post.pk %}">수정</a> </button>
+	<br><br>>댓글 <br>
+	<form method="POST">{% csrf_token %}
+		<input value="{{request.user}}" name = "author" hidden>
+		<textarea name = "text" class="comment"></textarea>
+		<button id="comment" type = "submit" class = "save btn btn-default">등록</button>
+	</form>
+	<br>
+	{% for comment in post.comments.all %}
+	
+		{{ comment.author }}
+		{{ comment.text }}
+		{{ comment.published_date }}
+		
+	{% endfor %}
+
+{% endblock articled %}

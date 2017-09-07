@@ -1,5 +1,49 @@
 {% extends 'board/template_boardnav.html' %}
 {% block articled %}
-<h1> 자유 게시판 </h1>
-여기를 채워주시면 됩니당!
+<!--<h1 class="board_name"> 자유 게시판 </h1>-->
+<table class="ftable">
+	<thead>
+		<tr>
+			<th>번호</th>
+			<th>제목</th>
+			<th>작성자</th>
+			<th>등록일</th>
+			<th>조회</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for post in posts %}
+	
+		<tr>
+			<td><a href="{% url 'post_detail' pk=post.pk %}">{{ post.pk }}</a></td>
+			<td><a href="{% url 'free_detail' pk=post.pk %}">{{ post.title }}</a></td>
+			<td>{{ post.author }}</td>
+			<td>{{ post.published_date }}</td>
+			<td>{{ post.view_count }}</td>
+		</tr>
+
+	{% endfor %}
+	</tbody>
+</table>
+
+<div class="div_pagination">
+	<span class="step-links">
+		{% if posts.has_previous %}
+		<a href="?page={{ posts.previous_page_number }}"> 이전</a>
+		{% endif %}
+
+		<span class="current">
+			Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+		</span>
+
+		{% if posts.has_next %} 
+		<a href="?page={{ posts.next_page_number }}"> 다음</a>
+		{% endif %}
+	</span>
+</div>
+<div class="write">
+	{% if user.is_authenticated %}
+	<a href="{% url 'free_new' %}"><span id="write">글작성</span></a>
+	{% endif %}
+</div>
 {% endblock articled %}
