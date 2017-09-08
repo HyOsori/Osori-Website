@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import FreePost, Comment
 from .forms import FreePostForm, CommentForm
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import sys
 
@@ -65,6 +66,14 @@ def free_delete(request, pk):
 		return redirect('free_detail', pk=post.pk)
 	return redirect('free_board')
 
+def comment_delete(request, pk):
+	comment = get_object_or_404(Comment, pk=pk)
+	if comment.author == request.user :
+		comment.delete()
+	else:
+		return redirect('post_detail', pk=comment.post.pk)
+	return redirect('post_detail',pk=comment.post.pk)
+
 def post_detail(request, pk):
 	post = get_object_or_404(FreePost, pk=pk)
 	post.view_count +=1
@@ -76,10 +85,11 @@ def post_detail(request, pk):
 			comment = form.save(commit=False)
 			comment.author = request.user
 			comment.published_date = timezone.now()
+			comment.post = post
 			comment.publish()
-			return redirect('free_detail', pk=post.pk)
+			return redirect('post_detail', pk=post.pk)
 	else:
 		form = CommentForm()
-	return render(request, 'board/post_detail.html', {'post' : post})
+	return render(request, 'board/post_detail.html', {'form': form, 'post' : post})
 
 

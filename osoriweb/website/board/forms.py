@@ -9,7 +9,7 @@ class FreePostForm(forms.ModelForm):
 		fields = ('title' , 'text',)
 
 class CommentForm(forms.ModelForm):
-
+	text = forms.CharField(widget=forms.Textarea,label='')
 	class Meta:
 		model = Comment
-		fields = ('author', 'text',)
+		fields = ('text',)

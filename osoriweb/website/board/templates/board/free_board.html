@@ -16,7 +16,13 @@
 	
 		<tr>
 			<td><a href="{% url 'post_detail' pk=post.pk %}">{{ post.pk }}</a></td>
-			<td><a href="{% url 'free_detail' pk=post.pk %}">{{ post.title }}</a></td>
+			<td>
+				<a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}
+					{% if post.comments.count > 0 %}
+					<span class="badge">{{post.comments.all.count}}</span>
+					{% endif %}
+				</a>
+			</td>
 			<td>{{ post.author }}</td>
 			<td>{{ post.published_date }}</td>
 			<td>{{ post.view_count }}</td>

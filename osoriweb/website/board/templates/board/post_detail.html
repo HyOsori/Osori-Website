@@ -2,16 +2,16 @@
 {% block articled %}
 	>자유게시글<br>
 	<div class="detailTitle" >
-		<span>제목 | {{ post.title }}</span>
+		<strong>제목 | </strong><span> {{ post.title }}</span>
 	</div>
 	<div class="detailA" >
-		<span>작성자 | {{ post.author }}</span>
+		<strong>작성자 |</strong><span> {{ post.author }}</span>
 	</div>
 	<div class="detailS">
-		<span>등록일 | {{ post.published_date }} </span> 
+		<strong>등록일 |</strong><span> {{ post.published_date }} </span> 
 	</div>
 	<div class="detailV">
-		<span>조회수 | {{ post.view_count }}</span>
+		<strong>조회수 |</strong><span> {{ post.view_count }}</span>
 	</div>
 	
 	
@@ -22,18 +22,26 @@
 	<button id="listbtn" class = "save btn btn-default"><a href="{% url 'free_board' %}">목록 </a></button>
 	<button id="deletebtn" class = "save btn btn-default"><a href="{% url 'free_delete' pk=post.pk %}">삭제</a></button>
 	<button id="modifybtn" class = "save btn btn-default"><a href="{% url 'free_detail' pk=post.pk %}">수정</a> </button>
-	<br><br>>댓글 <br>
+	<br><br>><strong>댓글 </strong><br>
+	
+
+	{% if user.is_authenticated %}
 	<form method="POST">{% csrf_token %}
-		<input value="{{request.user}}" name = "author" hidden>
-		<textarea name = "text" class="comment"></textarea>
+		
+			{{ form }}
+		
 		<button id="comment" type = "submit" class = "save btn btn-default">등록</button>
 	</form>
+	{% endif %}
+
 	<br>
 	{% for comment in post.comments.all %}
-	
-		{{ comment.author }}
-		{{ comment.text }}
-		{{ comment.published_date }}
+	<div class="comment_info">
+		<label class="cmt_user">{{ comment.author }}</label> <a class="comment_del" href="{% url 'comment_delete' pk=comment.pk %}">삭제</a> <span class="cmt_date">{{ comment.published_date }}</span>
+	</div>
+	<div class="comment_text">
+		<span class="cmt_txt">{{ comment.text }} </span>
+	</div>
 		
 	{% endfor %}
 
