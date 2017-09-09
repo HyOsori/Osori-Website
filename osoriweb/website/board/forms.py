@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import FreePost, Comment
+from .models import FreePost
 
 class FreePostForm(forms.ModelForm):
 

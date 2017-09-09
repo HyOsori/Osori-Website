@@ -16,13 +16,7 @@
 	
 		<tr>
 			<td><a href="{% url 'post_detail' pk=post.pk %}">{{ post.pk }}</a></td>
-			<td>
-				<a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}
-					{% if post.published_date < datetime.date.now %}
-					<span class="badge">new</span>
-					{% endif %}
-				</a>
-			</td>
+			<td><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></td>
 			<td>{{ post.author }}</td>
 			<td>{{ post.published_date }}</td>
 			<td>{{ post.view_count }}</td>
