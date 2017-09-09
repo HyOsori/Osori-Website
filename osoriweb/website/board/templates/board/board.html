@@ -1,0 +1,94 @@
+{% extends 'board/template_board_nav.html' %}
+{% block articled %}
+
+<div class="ui center aligned container" style="width: 50%;">
+    <div class="ui grid">
+        <div class="three wide column"></div>
+        <div class="ten wide column">
+            <h1>
+                <a href="">
+                    {{ title }}
+                </a>
+            </h1>
+        </div>
+    {% if user.is_authenticated %}
+        <div class="three wide column right aligned">
+            <br>
+            <a style="" href="{% url 'create_article' board_name=board_name %}">new post</a>
+        </div>
+    {% endif %}
+    </div>
+    <table class="ui celled table">
+        <thead>
+            <th>번호</th>
+            <th>제목</th>
+            <th>글쓴이</th>
+            <th>작성일</th>
+            <th>조회수</th>
+        </thead>
+        <tbody>
+    {% for article in articles %}
+        <tr>
+            <td>{{ article.pk }}</td>
+            <td><a href="{% url 'read_article' board_name=board_name pk=article.pk %}">{{ article.title }}</a></td>
+            <td>{{ article.author }}</td>
+            <td>{{ article.created_date }}</td>
+            <td>{{ article.view_count }}</td>
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+    <div>
+        <a href="{% url 'board_page' board_name=board_name page=1 %}">
+            <button class="ui compact icon button {{ articles.has_previous|yesno:',disabled' }}">
+                <i class="angle double left icon"></i>
+            </button>
+        </a>
+        {% if articles.has_previous %}
+        <a href="{% url 'board_page' board_name=board_name page=articles.previous_page_number %}">
+        {% else %}
+        <a href="#">
+        {% endif %}
+            <button class="ui compact icon button {{ articles.has_previous|yesno:',disabled' }}">
+                <i class="angle left icon"></i>
+            </button>
+        </a>
+
+        {% for page in articles.paginator.page_range %}
+        <span class="current">
+            <a href="{% url 'board_page' board_name=board_name page=page %}?method={{method}}&keyword={{keyword}}">
+                {{ page }}
+            </a>
+        </span>
+        {% endfor %}
+
+        {% if articles.has_next %}
+        <a href="{% url 'board_page' board_name=board_name page=articles.next_page_number %}">
+        {% else %}
+        <a href="#">
+        {% endif %}
+            <button class="ui compact icon button {{ articles.has_next|yesno:',disabled' }}">
+                <i class="angle right icon"></i>
+            </button>
+        </a>
+        <a href="{% url 'board_page' board_name=board_name page=articles.paginator.count %}?keyword={{keyword}}">
+                <button class="ui compact icon button {{ articles.has_next|yesno:',disabled' }}">
+                <i class="angle double right icon"></i>
+            </button>
+        </a>
+    </div>
+
+    <form method="post" action="{% url 'board_search' board_name=board_name %}">{% csrf_token %}
+        <select name="method" class="ui dropdown">
+            <option value="title">제목</option>
+            <option value="author">작성자</option>
+        </select>
+        <div class="ui input">
+            <input name="keyword" type="text" placeholder="Search...">
+        </div>
+        <button class="ui icon button" type="submit">
+            <i class="search icon"></i>
+        </button>
+    </form>
+</div>
+{% endblock articled %}

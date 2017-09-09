@@ -1,9 +1,0 @@
-{% extends 'board/template_boardnav.html' %}
-{% block articled %}
-    <h1>Article Editor</h1>
-    <form method="POST" class="post-form">{% csrf_token %}
-        {{ form.as_p|safe }}
-        <button type="submit" class="save btn btn-default">Save</button>
-    </form>
-
-{% endblock articled%}

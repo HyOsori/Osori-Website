@@ -1,23 +1,21 @@
 from django import forms
-
-from .models import InfoArticle, InfoComment
+from .models import Article
+from .models import BoardType
 from django_summernote.widgets import SummernoteWidget
 
-class InfoForm(forms.ModelForm):
+
+# 게시글 폼
+class ArticleForm(forms.ModelForm):
 
     class Meta:
-        model = InfoArticle
-        fields = ('title', 'text',)
+        model = Article
+        fields = ('title', 'text',)  # 제목과 내용을 입력 가능하도록 설정
+
+        title = forms.CharField(required=True)
+        email = forms.EmailField(required=True)
+        type = forms.TypedChoiceField(choices=BoardType.choices(), coerce=str)
+        message = forms.CharField(widget=forms.Textarea)
+
         widgets = {
-        	'text' : SummernoteWidget(),
+            'text': SummernoteWidget()
         }
-
-
-class InfoCommentForm(forms.ModelForm):
-
-    class Meta:
-        model = InfoComment
-        fields = ('author', 'text',)
-
-class SearchForm(forms.Form):
-	searchKey = forms.CharField(max_length = 30)
