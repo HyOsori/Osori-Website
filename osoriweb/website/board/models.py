@@ -14,16 +14,7 @@ class InfoArticle(models.Model):
     def __str__(self):
         return self.title
 
-class InfoComment(models.Model):
-    article = models.ForeignKey('board.InfoArticle', related_name='comments')
-    author = models.CharField(max_length=200)
-    text = models.TextField()
-    created_date = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        return self.text
-
-class CommentLikes(models.Model):
+class ArticleLikes(models.Model):
 	user = models.ForeignKey('auth.User')
-	comment = models.ForeignKey('board.InfoComment', related_name='likes')
+	article = models.ForeignKey('board.InfoArticle', related_name='likes')
 	created_date = models.DateTimeField(default = timezone.now)

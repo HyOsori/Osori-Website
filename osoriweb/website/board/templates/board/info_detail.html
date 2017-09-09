@@ -1,8 +1,9 @@
 {% extends 'board/template_boardnav.html' %}
 {% block articled %}
 {% load in_list %}
+{# Get the current article #}
 {% with articles.1 as article %}
-{% if user == article.author %}
+{% if user == article.author or user.is_superuser%}
 <div class = postControl>
 	<a href="{% url 'info_edit' pk=article.pk %}" class="editInfo"><span class = "glyphicon glyphicon-pencil">Edit Post</span></a>
 	<a href="{% url 'info_remove' pk=article.pk %}" class="removeInfo"><span class = "glyphicon glyphicon-pencil">Remove Post</span></a>
@@ -27,6 +28,7 @@
     </tr>
 
 {% endwith %}
+    {# The first article from the articles list, aka 이전 글 #}
     {% with articles|first as article %}
     {% if article != 0 %}
     <tr>
@@ -35,6 +37,8 @@
     </tr>
     {% endif %}
     {% endwith %}
+
+    {# Get the last article from the articles list, aka 이전 글 #}
     {% with articles.2 as article %}
     {% if article != 0 %}
     <tr>
@@ -43,46 +47,16 @@
     </tr>
     {% endif %}
     {% endwith %}
+{% with articles.1 as article %}
 </table>
-
-<div class="comment">
-    {% if user.is_authenticated %}
-
-    <form method="POST" class="post-form">{% csrf_token %}
-        <input value = "{{ request.user }}" name = "author" hidden>    
-        <input type = "text" name = "text" class = "commentInput" placeholder="댓글을 입력해 주세요">
-        <button type="submit" class="save btn btn-default">Submit</button>
-    </form>
-
+	{% if user|in_list:article.likes.all %}
+    	<a class="btn btn-default link" href="{% url 'info_like' pk=article.pk %}">Unlike</a>
+    {% else %}
+    	<a class="btn btn-default link" href="{% url 'info_like' pk=article.pk %}">Like</a>
     {% endif %}
 
-    {% with articles.1 as article %}
-    {% for comment in article.comments.all %}
-    <div class = "comments">
-	    <div class = "author"><strong>{{ comment.author }}</strong></div> 
-	    <div class="date">{{ comment.created_date }}</div>
-
-	    <div class = "control">
-		    {% if user.username == comment.author %}
-		    <a class="btn btn-default" href="{% url 'info_comment_remove' pk=comment.pk %}">remove</a>
-		    {% endif %}
-	    </div>
-	    <div class = commentContent>
-		    <div class = commentText>{{ comment.text|safe }}</div>
-		    <div class = commentLikes>
-			    {% if user|in_list:comment.likes.all %}
-			    	<a class="btn btn-default link" href="{% url 'info_like' pk=comment.pk %}">Unlike</a>
-			    {% else %}
-			    	<a class="btn btn-default link" href="{% url 'info_like' pk=comment.pk %}">Like</a>
-			    {% endif %}
-			    <div class = "count">{{ comment.likes.all.count }}</div>
-		    </div>
-		</div>
+    <div>
+    	<p> Likes : {{ article.likes.all.count }}</p>
 	</div>
-	{% empty %}
-		<p>No comments here yet :) </p>
-    {% endfor %} 
-</div>
-
-{% endwith %}   
+{% endwith %}
 {% endblock articled %}
