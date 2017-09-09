@@ -19,3 +19,4 @@ class ArticleForm(forms.ModelForm):
         widgets = {
             'text': SummernoteWidget()
         }
+

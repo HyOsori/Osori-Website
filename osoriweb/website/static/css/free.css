@@ -1,0 +1,139 @@
+.ftable{
+	text-align : center;
+	width : 90%;
+	color: #fff;
+}
+.ftable th{
+	background-color: #8C8C8C;
+	border-bottom: 1px solid #ddd;
+	border-top: 1px solid #ddd;
+	padding-top :3px;
+	padding-bottom : 3px;
+	height: 35px;
+	text-align : center;
+}
+
+.ftable td{
+	border-bottom: 1px solid #ddd;
+	height: 35px;
+	color:#474747;
+	padding-top :3px;
+	padding-bottom : 3px;
+}
+.ftable tr:hover{
+	background-color: #ddd;
+}
+a, a:hover{
+	color : #474747;
+	text-decoration : none; 
+}
+.board_name{
+	color :#474747;
+}
+.div_pagination{
+	padding:10px;
+	padding-top:20px;
+	width:83.5%;
+	float:left;
+}
+.step-links{
+	text-align: center;
+}
+.write{
+	padding:10px;
+	padding-top:20px;
+	float:left;
+}
+#write{
+	border:1px solid #ddd;
+	padding:5px;
+	border-radius: 5px;
+}
+#write:hover{
+	border:1px solid #ddd;
+	padding:5px;
+	border-radius: 5px;
+	background-color: #ddd;
+}
+#deletebtn{
+	float:right;
+	margin-right:215px;
+}
+#modifybtn{
+	float:right;
+	margin-right:3px;
+}
+
+#listbtn{
+	align-self: right;
+}
+.detailTitle{
+	border:1px solid #ddd;
+	background-color: #eee;
+	height: 30px;
+	width:80%;
+	border-radius: 5px;
+	vertical-align: middle;
+	margin-top:10px;
+	padding-top:3px;
+	padding-left:10px;
+}
+.detailS{
+	border:1px solid #ddd;
+	height: 30px;
+	width:32%;
+	margin-right:10px;
+	border-radius: 5px;
+	display:inline-block;
+	vertical-align: middle;
+	margin-top:10px;
+	padding-top:3px;
+	padding-left:10px;
+}
+.detailV{
+	border:1px solid #ddd;
+	height: 30px;
+	width:13.5%;
+	border-radius: 5px;
+	vertical-align: middle;
+	display:inline-block;
+	text-align: center;
+	margin-top:10px;
+	padding-top:3px;
+}
+.detailA{
+	border:1px solid #ddd;
+	height: 30px;
+	border-radius: 5px;
+	vertical-align: middle;
+	display:inline-block;
+	width:32%;
+	margin-right:10px;
+	margin-top:10px;
+	padding-top:3px;
+	padding-left:10px;
+}
+.detailText{
+	border:1px solid #ddd;
+	min-height:500px;
+	border-radius: 5px;
+	margin-top:10px;
+	margin-bottom:10px;
+	padding-top:3px;
+	padding-left:10px;
+	width:80%;
+}
+
+textarea#id_text{
+	margin-top:10px;
+	width:74.5%;
+	max-height:50px;
+}
+
+.badge{
+	background-color : #B5C1DB;
+}
+.badge:hover{
+	background-color : #5B6781;
+
+}
