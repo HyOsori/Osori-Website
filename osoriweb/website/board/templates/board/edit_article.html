@@ -1,7 +1,7 @@
 {% extends 'board/template_board_nav.html' %}
 {% block articled %}
 <h1> {{ title }} </h1>
-<div class="ui container" style="width: 50%;">
+<div>
     <h1 class="ui center aligned header">Article Editor</h1>
     <form method="POST" class="post-form">{% csrf_token %}
         <div class="ui container">

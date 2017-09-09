@@ -48,7 +48,7 @@ def select_articles(request, **kwargs):
             .filter(type=board_type.value) \
             .order_by('-created_date')
 
-    paginator = Paginator(articles, 2)  # Show 10 contacts per page
+    paginator = Paginator(articles, 5)  # Show 10 contacts per page
 
     try:
         pagination = paginator.page(page)
@@ -127,35 +127,90 @@ def read_article(request, board_name, pk):
         board_type = BoardType(board_name)
     except Exception:
         board_type = BoardType.NOTI
+        board_name = board_type.value
 
-    try:
-        article = get_object_or_404(Article, type=board_type, pk=pk)
-        article.article_viewed()
-    except:
+    articles = Article.objects.filter(created_date__lte=timezone.now()).\
+        filter(type=board_name).\
+        order_by('-created_date')
+
+    count = articles.count()
+
+    # Create list of articles which are right before and after the target article
+    # This is done instead of get_object_or_404 because there was a need to find the index of the target article
+    # To get the before and after articles of the target
+
+    if count > 0:
+        for idx in range(0, count):
+            if articles[idx].pk == int(pk):  # Look for the target article
+                break
+    else:
         return render_to_response('board/no_result.html')
 
-    return render(request, 'board/read_article.html', {'article': article})
+    try:
+        before = None
+        after = None
+
+        article = articles[idx]  # Save the target article in the list
+        if 0 < idx:
+            before = articles[idx - 1]  # If the target article is not the first in the list, add the before article
+
+        if idx < (count - 1):
+            after = articles[idx + 1]  # If the target article is not the last in the list, add the last article.
+
+        article.article_viewed()
+    except Exception:
+        return render_to_response('board/no_result.html')
+
+    return render(request, 'board/read_article.html',
+                  {
+                      'article': article,
+                      'before': before,
+                      'after': after,
+                      'board_name': board_name},
+                  )
 
 
 # TODO: 작성 권한이 있는지 확인, 폼 대신 html로 대체
 @login_required
 def create_article(request, board_name):
+
+    try:
+        print("name: ", board_name)
+        board_type = BoardType(board_name)
+
+    except Exception:
+        print(1)
+        board_type = BoardType.NOTI
+        print(2)
+        board_name = board_type.value
+        print(3)
+
     if request.method == "POST":
         form = ArticleForm(request.POST)
         if form.is_valid():
             article = form.save(commit=False)
             article.author = request.user
+            article.type = board_type
             article.save()
             return redirect('read_article', board_name=board_name, pk=article.pk)
     else:
+
         form = ArticleForm()
 
-    return render(request, 'board/new_article.html', {'form': form})
+    return render(request, 'board/new_article.html', {'form': form, 'title': board_type.get_title()})
 
 
 # TODO: 작성자가 맞는지 확인, 폼 대신 html로 대체
 @login_required
 def edit_article(request, board_name, pk):
+
+    try:
+        board_type = BoardType(board_name)
+
+    except Exception:
+        board_type = BoardType.NOTI
+        board_name = board_type.value
+
     article = get_object_or_404(Article, pk=pk)
 
     if not article.author == request.user:
@@ -169,7 +224,7 @@ def edit_article(request, board_name, pk):
             article.save()
             return redirect('read_article', board_name=board_name, pk=article.pk)
     else:
-        return render(request, 'board/edit_article.html', {'article': article})
+        return render(request, 'board/edit_article.html', {'article': article, 'title': board_type.get_title()})
 
 
 # TODO: 작성자가 맞는지 확인

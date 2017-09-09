@@ -43,11 +43,47 @@ class Article(models.Model):
     created_date = models.DateTimeField(default=timezone.now)   # 작성일
     view_count = models.IntegerField(default=0)                 # 조회수
     text = models.TextField()                                   # 글내용
-    type = models.CharField(u'게시판 종류', max_length=10, default='NOTI', choices=BoardType.choices())  # 소속 게시판
+    type = models.CharField(u'게시판 종류', max_length=10, default='noti', choices=BoardType.choices())  # 소속 게시판
 
     def __str__(self):
         return self.title
 
     def article_viewed(self):
-        self.view_count += 1    # 글을 읽을 때 마다 조회수 + 1
+        self.view_count += 1
         self.save()
+
+# =======
+#
+# # Create your models here.
+#
+# class InfoArticle(models.Model):
+#     author = models.ForeignKey('auth.User')
+#     title = models.CharField(max_length=200)
+#     text = models.TextField()
+#     created_date = models.DateTimeField(
+#             default=timezone.now)
+#     view_count = models.IntegerField(default = 0)
+# >>>>>>> 8b1b4138db21c4cd23c12060e32a71ecd0e232a4
+#
+#     def __str__(self):
+#         return self.title
+#
+# <<<<<<< HEAD
+#     def article_viewed(self):
+#         self.view_count += 1    # 글을 읽을 때 마다 조회수 + 1
+#         self.save()
+# =======
+# class InfoComment(models.Model):
+#     article = models.ForeignKey('board.InfoArticle', related_name='comments')
+#     author = models.CharField(max_length=200)
+#     text = models.TextField()
+#     created_date = models.DateTimeField(default=timezone.now)
+#
+#     def __str__(self):
+#         return self.text
+#
+# class CommentLikes(models.Model):
+# 	user = models.ForeignKey('auth.User')
+# 	comment = models.ForeignKey('board.InfoComment', related_name='likes')
+# 	created_date = models.DateTimeField(default = timezone.now)
+# >>>>>>> 8b1b4138db21c4cd23c12060e32a71ecd0e232a4

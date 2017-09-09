@@ -1,36 +1,46 @@
 {% extends 'board/template_board_nav.html' %}
+
 {% block articled %}
-<h1> {{ title }} </h1>
 
-<style>
-.caption {
-    background-color: #FFF0F0
-}
-
-</style>
-{% if user.is_authenticated and user.username == article.author.username %}
-<div>
-    <a href="{% url 'update_article' board_name=board_name pk=article.pk %}">edit</a>ㄴ
-    <a href="{% url 'delete_article' board_name=board_name pk=article.pk %}">remove</a>
+{% if user.is_staff %}
+<div class = postControl>
+	<a href="{% url 'update_article' board_name=board_name pk=article.pk %}">수정</a>&nbsp;&nbsp;
+    <a href="{% url 'delete_article' board_name=board_name pk=article.pk %}">삭제</a>
 </div>
 {% endif %}
-<table class="ui celled table" id="article">
+
+<table class = "articleT" border = '1'>
     <tr>
-        <td class="caption">글제목</td>
-        <td colspan="5">{{ article.title }}</td>
+        <th> 제목 </th>
+        <th colspan = "5"> {{ article.title }}</th>
+    </tr>
+
+    <tr>
+        <th> 작성자 </th>
+        <td> {{ article.author }}</td>
+        <th> 작성일 </th>
+        <td> {{ article.created_date|date:"Y-m-d" }}</td>
+        <th> 조회수 </th>
+        <td> {{ article.view_count }}</td>
     </tr>
     <tr>
-        <td class="caption">작성자</td>
-        <td>{{ article.author.username }}</td>
-        <td class="caption">작성일</td>
-        <td>{{ article.created_date }}</td>
-        <td class="caption">조회수</td>
-        <td>{{ article.view_count }}</td>
+        <td colspan = "6" class = "articleText"> <div> {{ article.text|safe}}</div></td>
     </tr>
+
+
+    {% if before %}
     <tr>
-        <td colspan="6">
-            <p>{{ article.text | linebreaksbr }}</p>
-        </td>
+        <th> 다음 글 </th>
+        <td colspan = "5"> <a href="{% url 'read_article' board_name=board_name pk=before.pk %}">{{ before.title }}</a></td>
     </tr>
+    {% endif %}
+
+    {% if after %}
+    <tr>
+        <th> 이전 글 </th>
+        <td colspan = "5"> <a href="{% url 'read_article' board_name=board_name pk=after.pk %}">{{ after.title }}</a></td>
+    </tr>
+    {% endif %}
+
 </table>
 {% endblock articled %}

@@ -1,11 +1,10 @@
 from django import forms
 
-from .models import Inquiry, UserProfile
+from .models import Inquiry, Profile
 
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.forms.models import model_to_dict, fields_for_model
-
 
 class InquiryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -22,7 +21,8 @@ class InquiryForm(forms.ModelForm):
     content = forms.CharField(widget=forms.Textarea, label = "문의 내용")
 
 
-class UserForm(forms.ModelForm):
+
+class UserForm(UserCreationForm):
     error_messages = {
         'password_mismatch': "The two password fields didn't match.",
     }
@@ -46,9 +46,22 @@ class UserForm(forms.ModelForm):
             'required': 'True',
         }
     ))
+    department = forms.CharField(label='전공', required=True, max_length=15)
+    phone_number = forms.RegexField(regex=r'^\+?1?\d{9,15}$',
+                                    error_messages={
+                                        'invalid': "Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."})
+    github_id = forms.RegexField(label="Github", max_length=30,
+                                 regex=r'^[\w.@+-]+$',
+                                 error_messages={
+                                     'invalid': "This value may contain only letters, numbers and "
+                                                "@/./+/-/_ characters."},
+                                 widget=forms.TextInput(attrs={
+                                     'class': 'form-control',
+                                     'required': 'true',
+                                 }))
     class Meta:
         model = User
-        fields=('username', 'email')
+        fields=('username', 'email', 'password1', 'password2', 'department', 'phone_number', 'github_id')
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -60,28 +73,12 @@ class UserForm(forms.ModelForm):
             )
         return password2
 
-    def save(self, commit=True):
-        user = super(UserForm, self).save(commit=False)
-        user.set_password(self.cleaned_data["password1"])
-        if commit:
-            user.save()
-        return user
+
+
 
 class UserProfileForm(forms.ModelForm):
-    department = forms.CharField(label='전공', required=True, max_length=15)
-    phone_number = forms.RegexField(regex=r'^\+?1?\d{9,15}$',
-                                    error_messages={
-                                        'invalid':"Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."})
-    github_id = forms.RegexField(label="Github", max_length=30,
-                                regex=r'^[\w.@+-]+$',
-                                error_messages={
-                                    'invalid': "This value may contain only letters, numbers and "
-                                               "@/./+/-/_ characters."},
-                                widget=forms.TextInput(attrs={
-                                    'class': 'form-control',
-                                    'required': 'true',
-                                }))
+
     class Meta:
-        model = UserProfile
-        extends = ['user',]
+        model = Profile
         fields = ('department', 'phone_number', 'github_id')
+
