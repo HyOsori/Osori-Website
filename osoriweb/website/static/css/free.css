@@ -124,59 +124,12 @@ a, a:hover{
 	width:80%;
 }
 
-
-#comment{
-	margin-bottom:45px;
-	height:50px;
-	border:1px solid #ddd;
-}
-
 textarea#id_text{
 	margin-top:10px;
 	width:74.5%;
 	max-height:50px;
 }
 
-.comment_info{
-	width:80%;
-	height:25px;
-	background-color: #eee;
-	border-radius: 2px;
-	border:1px solid #ddd;
-	border-bottom-color: #eee;
-	
-}
-.comment_text{
-	margin-bottom:10px;
-	width:80%;
-	background-color: #eee;
-	border-radius: 2px;
-	height:30px;
-	border:1px solid #ddd;
-
-}
-.comment_del{
-	color:blue;
-	float:right;
-	margin-right:10px;
-}
-.cmt_date{
-	font-size: 12px;
-	float:right;
-	margin-right:70px;
-}
-.cmt_user{
-	margin-left:10px;
-	margin-right:50px;
-}
-.cmt_txt{
-	margin-left:10px;
-}
-
-.comment_del:hover{
-	color : blue;
-	text-decoration : none; 
-}
 .badge{
 	background-color : #B5C1DB;
 }

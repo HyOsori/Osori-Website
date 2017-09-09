@@ -22,27 +22,6 @@
 	<button id="listbtn" class = "save btn btn-default"><a href="{% url 'free_board' %}">목록 </a></button>
 	<button id="deletebtn" class = "save btn btn-default"><a href="{% url 'free_delete' pk=post.pk %}">삭제</a></button>
 	<button id="modifybtn" class = "save btn btn-default"><a href="{% url 'free_detail' pk=post.pk %}">수정</a> </button>
-	<br><br>><strong>댓글 </strong><br>
 	
-
-	{% if user.is_authenticated %}
-	<form method="POST">{% csrf_token %}
-		
-			{{ form }}
-		
-		<button id="comment" type = "submit" class = "save btn btn-default">등록</button>
-	</form>
-	{% endif %}
-
-	<br>
-	{% for comment in post.comments.all %}
-	<div class="comment_info">
-		<label class="cmt_user">{{ comment.author }}</label> <a class="comment_del" href="{% url 'comment_delete' pk=comment.pk %}">삭제</a> <span class="cmt_date">{{ comment.published_date }}</span>
-	</div>
-	<div class="comment_text">
-		<span class="cmt_txt">{{ comment.text }} </span>
-	</div>
-		
-	{% endfor %}
 
 {% endblock articled %}

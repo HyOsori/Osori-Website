@@ -10,5 +10,4 @@ urlpatterns = [
 	url(r'^free_board/(?P<pk>\d+)/$', views.free_detail, name='free_detail'),
 	url(r'^free_board/(?P<pk>\d+)/delete$', views.free_delete, name='free_delete'),
 	url(r'^free_board/(?P<pk>\d+)/detail$', views.post_detail, name='post_detail'),
-	url(r'^free_board/(?P<pk>\d+)/comment/delete$', views.comment_delete, name='comment_delete'),
 ]

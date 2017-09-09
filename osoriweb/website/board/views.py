@@ -1,10 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import FreePost, Comment
-from .forms import FreePostForm, CommentForm
+from .models import FreePost
+from .forms import FreePostForm
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import sys
+import time
+from datetime import datetime, timedelta
+
 
 
 # Create your views here.
@@ -18,7 +21,7 @@ def info_board(request):
     return render(request, 'board/info_board.html', {})
 
 def free_board(request):
-	articles = FreePost.objects.filter(published_date__lte=timezone.now()).order_by('pk')
+	articles = FreePost.objects.filter(published_date__lte=timezone.now()).order_by('-pk')
 	paginator = Paginator(articles, 25)
 	page = request.GET.get('page')
 	try:
@@ -66,30 +69,11 @@ def free_delete(request, pk):
 		return redirect('free_detail', pk=post.pk)
 	return redirect('free_board')
 
-def comment_delete(request, pk):
-	comment = get_object_or_404(Comment, pk=pk)
-	if comment.author == request.user :
-		comment.delete()
-	else:
-		return redirect('post_detail', pk=comment.post.pk)
-	return redirect('post_detail',pk=comment.post.pk)
-
 def post_detail(request, pk):
 	post = get_object_or_404(FreePost, pk=pk)
 	post.view_count +=1
 	post.save()
-	if request.method == "POST":
-		form = CommentForm(request.POST)
-		if form.is_valid():
-			print("Goodbye cruel world!", file=sys.stderr)
-			comment = form.save(commit=False)
-			comment.author = request.user
-			comment.published_date = timezone.now()
-			comment.post = post
-			comment.publish()
-			return redirect('post_detail', pk=post.pk)
-	else:
-		form = CommentForm()
-	return render(request, 'board/post_detail.html', {'form': form, 'post' : post})
+	
+	return render(request, 'board/post_detail.html', {'post' : post})
 
 

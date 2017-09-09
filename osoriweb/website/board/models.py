@@ -8,6 +8,7 @@ class FreePost(models.Model):
     text = models.TextField()
     created_date = models.DateTimeField(
             default=timezone.now)
+  
     published_date = models.DateTimeField(
             blank=True, null=True)
     view_count = models.IntegerField(default=0)

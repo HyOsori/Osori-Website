@@ -18,8 +18,8 @@
 			<td><a href="{% url 'post_detail' pk=post.pk %}">{{ post.pk }}</a></td>
 			<td>
 				<a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}
-					{% if post.comments.count > 0 %}
-					<span class="badge">{{post.comments.all.count}}</span>
+					{% if post.published_date < datetime.date.now %}
+					<span class="badge">new</span>
 					{% endif %}
 				</a>
 			</td>
