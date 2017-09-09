@@ -175,15 +175,11 @@ def read_article(request, board_name, pk):
 def create_article(request, board_name):
 
     try:
-        print("name: ", board_name)
         board_type = BoardType(board_name)
 
     except Exception:
-        print(1)
         board_type = BoardType.NOTI
-        print(2)
         board_name = board_type.value
-        print(3)
 
     if request.method == "POST":
         form = ArticleForm(request.POST)
@@ -211,20 +207,20 @@ def edit_article(request, board_name, pk):
         board_type = BoardType.NOTI
         board_name = board_type.value
 
-    article = get_object_or_404(Article, pk=pk)
-
-    if not article.author == request.user:
-        return redirect('read_article', board_name=board_name, pk=article.pk)
-
+    article = get_object_or_404(Article, type=board_name, pk=pk)
+    print(article.title)
     if request.method == "POST":
         form = ArticleForm(request.POST, instance=article)
         if form.is_valid():
             article = form.save(commit=False)
             article.author = request.user
+            article.type = board_type
             article.save()
             return redirect('read_article', board_name=board_name, pk=article.pk)
     else:
-        return render(request, 'board/edit_article.html', {'article': article, 'title': board_type.get_title()})
+        form = ArticleForm(instance=article)
+
+    return render(request, 'board/edit_article.html', {'form': form, 'title': board_type.get_title()})
 
 
 # TODO: 작성자가 맞는지 확인
