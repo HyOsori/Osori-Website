@@ -1,4 +1,52 @@
-      .big_container{
+.image {
+   position: relative;
+   width: 100%; /* for IE 6 */
+}
+
+h1 {
+  color: white;
+   position: absolute;
+   top: 30%;
+   text-align: center;
+   width: 100%;
+}
+
+
+.pusher {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.pusher > .footer {
+  flex: 1;
+
+}
+
+
+#album_paginator{
+  align: center;
+  padding: 30px;
+}
+
+#section_header{
+  margin:30px;
+}
+
+#main_page{
+font-family: 'Inconsolata', monospace;
+  font-size: 40px;
+font-style: normal;
+font-variant: normal;
+font-weight: lighter;
+line-height: 40.4px;
+}
+
+#main_image{
+  margin-bottom: -40px;
+
+}
+/*      .big_container{
         width: 100%;
         margin: 0px auto;
         padding: 20px;
@@ -57,8 +105,10 @@
       .footer {
         clear: both;
         padding: 20px;
-      }
+      }*/
 /* contact form */
+
+/*
       .contact_sub {
         text-align : center;
         margin-bottom: 20px;
@@ -87,14 +137,15 @@
         vertical-align: middle;
         border-bottom: 1px solid #ccc;
       }
-
+*/
 /* location tab */
        #map {
+        margin: 0px 30px 30px 30px;
         height: 400px;
         width: 80%;
        }
+/*
 
-/* project tab */
       .proj {
         padding: 20px;
 
@@ -118,5 +169,5 @@
       }
       .proj_contributor{
         color: #000;
-        font-size :18px;        
-      }
+        font-size :18px;
+      }*/

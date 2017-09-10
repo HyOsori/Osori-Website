@@ -1,14 +1,25 @@
 {% extends 'website/template.html' %}
 {% block content %}
+{% load staticfiles %}
 
-<nav class = "left_nav">
-<ul>
-	<li><a href="{%url 'change_password'%}">비밀번호 변경</a></li>
-</ul>
-</nav>
+<div class="image">
+      <img src="{% static 'images/upper_background.png'%}" alt="" width="100%" />
+      <h1>회원정보 변경</h1>
+</div>
+
+
+<div class="ui grid">
+
+<div class="three wide column">
+<div class="ui secondary vertical pointing left floated menu">
+	<a class="active item" href="{%url 'change_password'%}">비밀번호 변경</a>
+</div>
+</div>
+<div class="thirteen wide column">
 
 <div class = "container">
 {% block articled %}
 {% endblock articled %}
+</div>
 </div>
 {% endblock content %}

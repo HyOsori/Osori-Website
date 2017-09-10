@@ -1,0 +1,27 @@
+{% extends 'board/template_boardnav.html' %}
+{% block articled %}
+	>자유게시글<br>
+	<div class="detailTitle" >
+		<strong>제목 | </strong><span> {{ post.title }}</span>
+	</div>
+	<div class="detailA" >
+		<strong>작성자 |</strong><span> {{ post.author }}</span>
+	</div>
+	<div class="detailS">
+		<strong>등록일 |</strong><span> {{ post.published_date }} </span> 
+	</div>
+	<div class="detailV">
+		<strong>조회수 |</strong><span> {{ post.view_count }}</span>
+	</div>
+	
+	
+	<div class="detailText" >
+		<span> {{ post.text }}</span>
+	</div>
+	
+	<button id="listbtn" class = "save btn btn-default"><a href="{% url 'free_board' %}">목록 </a></button>
+	<button id="deletebtn" class = "save btn btn-default"><a href="{% url 'free_delete' pk=post.pk %}">삭제</a></button>
+	<button id="modifybtn" class = "save btn btn-default"><a href="{% url 'free_detail' pk=post.pk %}">수정</a> </button>
+	
+
+{% endblock articled %}

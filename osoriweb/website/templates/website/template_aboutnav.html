@@ -1,16 +1,33 @@
 {% extends 'website/template.html' %}
 {% block content %}
+{% load staticfiles %}
+{% load startswith %}
 
-<nav class = "left_nav">
-<ul>
-	<li><a href="{%url 'about_introduce'%}">동아리 소개</a></li>
-	<li><a href="{%url 'about_history'%}">동아리 연표</a></li>
-	<li><a href="{%url 'about_location'%}">오시는 길</a></li>
-</ul>
-</nav>
 
-<div class = "container">
-{% block articled %}
-{% endblock articled %}
+<div class="image">
+      <img src="{% static 'images/upper_background.png'%}" alt="" width="100%" />
+      <h1>About us</h1>
 </div>
+
+<div class="ui grid">
+
+<div class="three wide column">
+<div class="ui secondary vertical pointing left floated menu">
+	<a class="{%if request.resolver_match.url_name|startswith:'about_introduce' %}active{% else %}{% endif %} item" href="{% url 'about_introduce' %}">동아리 소개</a>
+	<a class="{%if request.resolver_match.url_name|startswith:'about_history' %}active{% else %}{% endif %} item" href="{% url 'about_history' %}">동아리 연표</a>
+	<a class="{%if request.resolver_match.url_name|startswith:'proj_doing' %}active{% else %}{% endif %} item" href="{% url 'proj_doing' %}">진행중인 프로젝트</a>
+	<a class="{%if request.resolver_match.url_name|startswith:'proj_done' %}active{% else %}{% endif %} item" href="{% url 'proj_done' %}">완료된 프로젝트</a>
+	<a class="{%if request.resolver_match.url_name|startswith:'about_location' %}active{% else %}{% endif %} item" href="{% url 'about_location' %}">오시는 길</a>
+
+</div>
+</div>
+<div class="thirteen wide column">
+		<div class = "ui container">
+			{% block articled %}
+			{% endblock articled %}
+		</div>
+</div>
+
+</div>
+
 {% endblock content %}

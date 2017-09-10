@@ -7,15 +7,16 @@ from django_summernote.widgets import SummernoteWidget
 # 게시글 폼
 class ArticleForm(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix','')
+        super(ArticleForm,self).__init__(*args,**kwargs)
+
+
     class Meta:
         model = Article
         fields = ('title', 'text',)  # 제목과 내용을 입력 가능하도록 설정
 
-        title = forms.CharField(required=True)
-        email = forms.EmailField(required=True)
-        type = forms.TypedChoiceField(choices=BoardType.choices(), coerce=str)
-        message = forms.CharField(widget=forms.Textarea)
+    title = forms.CharField(required=True, label="제목")
+    text = forms.CharField(widget=SummernoteWidget, label="내용")
 
-        widgets = {
-            'text': SummernoteWidget()
-        }
+

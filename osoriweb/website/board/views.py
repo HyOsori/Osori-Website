@@ -7,6 +7,9 @@ from .models import Article
 from .models import BoardType
 from .forms import ArticleForm
 
+ARTICLE_PER_PAGE = 20
+RADIUS_OF_PAGINATOR = 5
+
 
 def select_articles(request, **kwargs):
 
@@ -48,23 +51,38 @@ def select_articles(request, **kwargs):
             .filter(type=board_type.value) \
             .order_by('-created_date')
 
-    paginator = Paginator(articles, 5)  # Show 10 contacts per page
+    paginator = Paginator(articles, ARTICLE_PER_PAGE)  # Show 10 contacts per page
 
     try:
-        pagination = paginator.page(page)
+        articles = paginator.page(page)
     except PageNotAnInteger:
         # If page is not an integer, deliver first page.
-        pagination = paginator.page(1)
+        page = 1
+        articles = paginator.page(page)
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
-        pagination = paginator.page(paginator.num_pages)
+        page = paginator.num_pages
+        articles = paginator.page(page)
+
+    page_number = int(page)
+
+    page_min = page_number - RADIUS_OF_PAGINATOR
+    page_max = page_number + RADIUS_OF_PAGINATOR
+
+    if page_min < 1:
+        page_min = 1
+
+    if page_max > paginator.num_pages:
+        page_max = paginator.num_pages
 
     return render(request, 'board/board.html', {
         'title': board_type.get_title(),
-        'articles': pagination,
+        'articles': articles,
+        'current': page,
+        'pages': range(page_min, page_max + 1),
         'board_name': board_type,
         'method': method,
-        'keyword': keyword
+        'keyword': keyword,
     })
 
 
@@ -101,20 +119,35 @@ def search_articles(request, **kwargs):
             .filter(title__contains=keyword)\
             .order_by('-created_date')
 
-    paginator = Paginator(articles, 2)  # Show 10 contacts per page
+    paginator = Paginator(articles, ARTICLE_PER_PAGE)  # Show 10 contacts per page
 
     try:
         articles = paginator.page(page)
     except PageNotAnInteger:
         # If page is not an integer, deliver first page.
-        articles = paginator.page(1)
+        page = 1
+        articles = paginator.page(page)
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
-        articles = paginator.page(paginator.num_pages)
+        page = paginator.num_pages
+        articles = paginator.page(page)
+
+    page_number = int(page)
+
+    page_min = page_number - RADIUS_OF_PAGINATOR
+    page_max = page_number + RADIUS_OF_PAGINATOR
+
+    if page_min < 1:
+        page_min = 1
+
+    if page_max > paginator.num_pages:
+        page_max = paginator.num_pages
 
     return render(request, 'board/board.html', {
         'title': board_type.get_title(),
         'articles': articles,
+        'current': page,
+        'pages': range(page_min, page_max + 1),
         'board_name': board_type,
         'method': method,
         'keyword': keyword
@@ -175,15 +208,11 @@ def read_article(request, board_name, pk):
 def create_article(request, board_name):
 
     try:
-        print("name: ", board_name)
         board_type = BoardType(board_name)
 
     except Exception:
-        print(1)
         board_type = BoardType.NOTI
-        print(2)
         board_name = board_type.value
-        print(3)
 
     if request.method == "POST":
         form = ArticleForm(request.POST)
@@ -211,20 +240,20 @@ def edit_article(request, board_name, pk):
         board_type = BoardType.NOTI
         board_name = board_type.value
 
-    article = get_object_or_404(Article, pk=pk)
-
-    if not article.author == request.user:
-        return redirect('read_article', board_name=board_name, pk=article.pk)
+    article = get_object_or_404(Article, type=board_name, pk=pk)
 
     if request.method == "POST":
         form = ArticleForm(request.POST, instance=article)
         if form.is_valid():
             article = form.save(commit=False)
             article.author = request.user
+            article.type = board_type
             article.save()
             return redirect('read_article', board_name=board_name, pk=article.pk)
     else:
-        return render(request, 'board/edit_article.html', {'article': article, 'title': board_type.get_title()})
+        form = ArticleForm(instance=article)
+
+    return render(request, 'board/edit_article.html', {'form': form, 'title': board_type.get_title()})
 
 
 # TODO: 작성자가 맞는지 확인

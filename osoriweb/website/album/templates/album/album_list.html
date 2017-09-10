@@ -1,33 +1,70 @@
-{% extends 'website/template.html' %}
-{% block content %}
+{% extends 'board/template_board_nav.html' %}
+{% block articled %}
 
-<div class="photolist">
-	{% for photo in photos  %}
-	<a href="{%url 'album_detail' pk=photo.pk %}">
-    <div>
-		{% if photo.image %}
-		<img src="{{ photo.image.url }}" alt="" width=200>
-		<br>{{photo.title}}
-		{% endif %}
+
+<div class="ui grid">
+	<div class="row">
+		<h1 class="ui left aligned secondary basic segment"> 사진 게시판 </h1>
 	</div>
-    </a>
+
+	<div class="row">
+	{% for photo in photos  %}
+	  <div class="three wide column">
+			<a href="{%url 'album_detail' pk=photo.pk %}">
+
+		{% if photo.image %}
+		<div class="ui medium image">
+		<img src="{{ photo.image.url }}" alt="">
+			</div>
+		{% endif %}
+			<div class="ui text center" align="center">{{photo.title}}</div>
+
+	</a>
+	</div>
 	{% endfor %}
 </div>
-
-
-<div class="pagination">
-    <span class="step-links">
-        {% if photos.has_previous %}
-            <a href="?page={{ photos.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ photos.number }} of {{ photos.paginator.num_pages }}.
-        </span>
-
-        {% if photos.has_next %}
-            <a href="?page={{ photos.next_page_number }}">next</a>
-        {% endif %}
-    </span>
 </div>
-{% endblock content %}
+<div class="ui center aligned grid">
+		<div id="album_paginator" class="ui center aligned">
+		<a href="{% url 'album'%}?page=1">
+				<button class="ui compact icon button {{ photos.has_previous|yesno:',disabled' }}">
+						<i class="angle double left icon"></i>
+				</button>
+		</a>
+		{% if photos.has_previous %}
+		<a href="{% url 'album'%}?page={{photos.paginator.count}}">
+		{% else %}
+		<a href="#">
+		{% endif %}
+				<button class="ui compact icon button {{ photos.has_previous|yesno:',disabled' }}">
+						<i class="angle left icon"></i>
+				</button>
+		</a>
+		<div class="ui secondary pagination menu">
+		{% for page in photos.paginator.page_range %}
+		<span class="current">
+				<a class="item" href="{% url 'album' %}?page={{page}}">
+						{{ page }}
+				</a>
+		</span>
+		{% endfor %}
+	</div>
+		{% if photos.has_next %}
+		<a href="{% url 'album'%}?page={{photos.next_page_number}}">
+		{% else %}
+		<a href="#">
+		{% endif %}
+				<button class="ui compact icon button {{ photos.has_next|yesno:',disabled' }}">
+						<i class="angle right icon"></i>
+				</button>
+		</a>
+		<a href="{% url 'album'%}?page={{photos.paginator.count}}">
+						<button class="ui compact icon button {{ photos.has_next|yesno:',disabled' }}">
+						<i class="angle double right icon"></i>
+				</button>
+		</a>
+</div>
+</div>
+
+
+{% endblock articled %}

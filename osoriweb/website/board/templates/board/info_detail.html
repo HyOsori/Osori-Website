@@ -1,0 +1,62 @@
+{% extends 'board/template_boardnav.html' %}
+{% block articled %}
+{% load in_list %}
+{# Get the current article #}
+{% with articles.1 as article %}
+{% if user == article.author or user.is_superuser%}
+<div class = postControl>
+	<a href="{% url 'info_edit' pk=article.pk %}" class="editInfo"><span class = "glyphicon glyphicon-pencil">Edit Post</span></a>
+	<a href="{% url 'info_remove' pk=article.pk %}" class="removeInfo"><span class = "glyphicon glyphicon-pencil">Remove Post</span></a>
+</div>
+{% endif %}
+<table class = "articleT" border = '1'>    
+    <tr>
+        <th> 제목 </th>
+        <th colspan = "5"> {{ article.title }}</th>
+    </tr>
+
+    <tr>
+        <th> 작성자 </th>
+        <td> {{ article.author }}</td>
+        <th> 작성일 </th>
+        <td> {{ article.created_date }}</td>
+        <th> 조회수 </th>
+        <td> {{ article.view_count }}</td>
+    </tr>
+    <tr>
+        <td colspan = "6" class = "articleText"> <div> {{ article.text|safe}}</div></td>
+    </tr>
+
+{% endwith %}
+    {# The first article from the articles list, aka 이전 글 #}
+    {% with articles|first as article %}
+    {% if article != 0 %}
+    <tr>
+        <th> 다음 글 </th>
+        <td colspan = "5"> <a href="{% url 'info_detail' pk=article.pk %}">{{ article.title }}</a></td>
+    </tr>
+    {% endif %}
+    {% endwith %}
+
+    {# Get the last article from the articles list, aka 이전 글 #}
+    {% with articles.2 as article %}
+    {% if article != 0 %}
+    <tr>
+        <th> 이전 글 </th>
+        <td colspan = "5"> <a href="{% url 'info_detail' pk=article.pk %}">{{ article.title }}</a></td>
+    </tr>
+    {% endif %}
+    {% endwith %}
+{% with articles.1 as article %}
+</table>
+	{% if user|in_list:article.likes.all %}
+    	<a class="btn btn-default link" href="{% url 'info_like' pk=article.pk %}">Unlike</a>
+    {% else %}
+    	<a class="btn btn-default link" href="{% url 'info_like' pk=article.pk %}">Like</a>
+    {% endif %}
+
+    <div>
+    	<p> Likes : {{ article.likes.all.count }}</p>
+	</div>
+{% endwith %}
+{% endblock articled %}
