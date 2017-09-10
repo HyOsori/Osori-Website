@@ -1,3 +1,16 @@
+.image {
+   position: relative;
+   width: 100%; /* for IE 6 */
+}
+
+h1 {
+  color: white;
+   position: absolute;
+   top: 30%;
+   text-align: center;
+   width: 100%;
+}
+
 
 .pusher {
   display: flex;

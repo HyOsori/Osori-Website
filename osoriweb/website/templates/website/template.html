@@ -30,7 +30,7 @@
 				<a class="{%if request.resolver_match.url_name|startswith:'about'%}active{% else %}{% endif %} item" href="{% url 'about'%}">About</a>
 				<a class="{%if request.resolver_match.url_name|startswith:'board'%}active{% else %}{% endif %} item" href="{% url 'board'%}">Archive</a>
 				<a class="{%if request.resolver_match.url_name|startswith:'contact'%}active{% else %}{% endif %} item" href="{% url 'contact'%}">Contact</a>
-				<a class="item"> <span id="signInBtn" class="text">sign in</span>
+				<a class="item"> <span id="signInBtn" class="text">Sign in</span>
 					<div class="ui modal">
 						<ul>
 							{% if user.is_staff %}

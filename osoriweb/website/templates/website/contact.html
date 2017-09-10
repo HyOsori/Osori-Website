@@ -1,7 +1,13 @@
 {% extends 'website/template.html' %}
 {% block content %}
+{% load staticfiles %}
+
+
+<div class="image">
+      <img src="{% static 'images/upper_background.png'%}" alt="" width="100%" />
+      <h1>Contact</h1>
+</div>
 <div class = "contact_sub">
-	<h2>Contact us</h2>
 	<p>
 		동아리와 관련된 문의사항을 남겨주시면 확인 후 이메일로 연락 드리겠습니다.
 	</p>

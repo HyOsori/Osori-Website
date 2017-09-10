@@ -1,20 +1,30 @@
 {% extends 'website/template.html' %}
 {% block content %}
 {% load staticfiles %}
+{% load startswith %}
 
-<img class="ui image" src={% static 'images/upper_background.png'%}  alt="상단배경" width="100%"></img>
 
+<div class="image">
+      <img src="{% static 'images/upper_background.png'%}" alt="" width="100%" />
+      <h1>Archive</h1>
+</div>
 
-<nav class = "left_nav">
-<ul>
-	<li><a href="{% url 'board_home' 'noti' %}">공지 게시판</a></li>
-	<li><a href="{% url 'board_home' 'info' %}">정보 게시판</a></li>
-	<li><a href="{% url 'board_home' 'free' %}">자유 게시판</a></li>
-	<li><a href="{% url 'album' %}">사진 게시판</a></li>
-</ul>
-</nav>
-<div class = "container">
-{% block articled %}
-{% endblock articled %}
+<div class="ui grid">
+
+<div class="four wide column">
+<div class="ui secondary vertical pointing left floated menu">
+	<a class="{%if board_name|stringformat:"s" == 'noti'%}active{% else %}{% endif %} item" href="{% url 'board_home' 'noti' %}">공지 게시판</a>
+	<a class="{%if board_name|stringformat:"s" == 'info'%}active{% else %}{% endif %} item" href="{% url 'board_home' 'info' %}">정보 게시판</a>
+	<a class="{%if board_name|stringformat:"s" == 'free'%}active{% else %}{% endif %} item" href="{% url 'board_home' 'free' %}">자유 게시판</a>
+	<a class="{%if request.resolver_match.url_name|startswith:'album' %}active{% else %}{% endif %} item" href="{% url 'album' %}">사진 게시판</a>
+</div>
+</div>
+<div class="twelve wide column">
+		<div class = "ui container">
+			{% block articled %}
+			{% endblock articled %}
+		</div>
+</div>
+
 </div>
 {% endblock content %}
