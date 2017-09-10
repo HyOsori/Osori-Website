@@ -1,26 +1,14 @@
 {% extends 'board/template_board_nav.html' %}
 {% block articled %}
-<div>
+<div class="ui segment">
 		{% if photo.image %}
-    <table border="1">
-        <thead>
-        <tr>
-            <td>{{photo.created_date}}</td>
-
-        </tr>
-        <tr>
-            <th>{{photo.title}}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>
-            <img src="{{ photo.image.url }}" alt="">
-            </td>
-        </tr>
-        </tbody>
-    </table>
-        {% endif %}
+			<div class="ui large header">{{photo.title}}
+			<div class="ui right aligned sub header">{{photo.created_date|date:"Y-m-d" }}</div>
 </div>
+							<img class="ui centered huge image" src="{{ photo.image.url }}" alt"">
+        {% endif %}
+
+</div>
+<a href="{%url 'album'%}"><div class="ui bottom attached button" tabindex="0">목록으로</div></a>
 
 {% endblock articled %}

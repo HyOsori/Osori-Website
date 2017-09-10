@@ -27,6 +27,16 @@ h1 {
   padding-top:30px;
 
 }
+
+#album_paginator{
+  align: center;
+  padding: 30px;
+}
+
+#section_header{
+  margin:30px;
+}
+
 /*      .big_container{
         width: 100%;
         margin: 0px auto;
