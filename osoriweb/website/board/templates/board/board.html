@@ -5,99 +5,105 @@
 <h1>접근불가</h1>
 {% else %}
 
-<div class="ui center aligned container" style="width: 50%;">
+<div class="ui center aligned container">
     <div class="ui grid">
-        <div class="three wide column"></div>
-        <div class="ten wide column">
-            <h1>
-                <a href="">
-                    {{ title }}
+        <div class="row"></div>
+        <div class="row">
+            <div class="five wide column"></div>
+            <div class="six wide column center aligned">
+                <div class="ui container">
+                    <h1 class="ui header">{{ title }}</h1>
+                </div>
+            </div>
+            <div class="three wide column right aligned" style="top: 20px;">
+{% if user.is_authenticated and board_name|stringformat:"s" != 'noti' or user.is_staff %}
+                <a href="{% url 'create_article' board_name=board_name %}">new post</a>
+{% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="two wide column"></div>
+            <div class="twelve wide column">
+                <table class="ui compact table">
+                    <thead>
+                    <th class="one wide center aligned">번호</th>
+                    <th class="seven wide center aligned">제목</th>
+                    <th class="one wide center aligned">글쓴이</th>
+                    <th class="two wide center aligned">작성일</th>
+                    <th class="one wide center aligned">조회수</th>
+                    </thead>
+                    <tbody>
+                    {% for article in articles %}
+                    <tr>
+                        <td class="center aligned">{{ article.pk }}</td>
+                        <td><a href="{% url 'read_article' board_name=board_name pk=article.pk %}">{{ article.title }}</a></td>
+                        <td class="center aligned">{{ article.author }}</td>
+                        <td class="center aligned">{{ article.created_date|date:"Y-m-d" }}</td>
+                        <td class="center aligned">{{ article.view_count }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="two wide column"></div>
+        </div>
+        <div class="row center aligned">
+            <div class="sixteen wide column">
+                <a href="{% url 'board_page' board_name=board_name page=1 %}">
+                    <button class="ui compact icon button {{ articles.has_previous|yesno:',disabled' }}">
+                        <i class="angle double left icon"></i>
+                    </button>
                 </a>
-            </h1>
-        </div>
-    {% if user.is_authenticated and board_name|stringformat:"s" != 'noti' or user.is_staff %}
-        <div class="three wide column right aligned">
-            <br>
-            <a style="" href="{% url 'create_article' board_name=board_name %}">new post</a>
-        </div>
-    {% endif %}
-    </div>
-    <table class="ui celled table">
-        <thead>
-            <th>번호</th>
-            <th>제목</th>
-            <th>글쓴이</th>
-            <th>작성일</th>
-            <th>조회수</th>
-        </thead>
-        <tbody>
-    {% for article in articles %}
-        <tr>
-            <td>{{ article.pk }}</td>
-            <td><a href="{% url 'read_article' board_name=board_name pk=article.pk %}">{{ article.title }}</a></td>
-            <td>{{ article.author }}</td>
-            <td>{{ article.created_date|date:"Y-m-d" }}</td>
-            <td>{{ article.view_count }}</td>
-        </tr>
-    {% endfor %}
-        </tbody>
-    </table>
-    <div>
-        <a href="{% url 'board_page' board_name=board_name page=1 %}">
-            <button class="ui compact icon button {{ articles.has_previous|yesno:',disabled' }}">
-                <i class="angle double left icon"></i>
-            </button>
-        </a>
-        {% if articles.has_previous %}
-        <a href="{% url 'board_page' board_name=board_name page=articles.previous_page_number %}">
-        {% else %}
-        <a href="#">
-        {% endif %}
-            <button class="ui compact icon button {{ articles.has_previous|yesno:',disabled' }}">
-                <i class="angle left icon"></i>
-            </button>
-        </a>
-
-        {% for page in pages %}
-        <span class="current">
-            <a href="{% url 'board_page' board_name=board_name page=page %}?method={{method}}&keyword={{keyword}}">
-                {% if page|stringformat:'s' != current %}
-                    {{ page }}
+                {% if articles.has_previous %}
+                <a href="{% url 'board_page' board_name=board_name page=articles.previous_page_number %}">
                 {% else %}
-                    <b>{{ page }}</b>
+                <a href="#">
                 {% endif %}
-            </a>
-        </span>
-        {% endfor %}
+                    <button class="ui compact icon button {{ articles.has_previous|yesno:',disabled' }}">
+                        <i class="angle left icon"></i>
+                    </button>
+                </a>
+                {% for page in pages %}
+                    <a href="{% url 'board_page' board_name=board_name page=page %}?method={{method}}&keyword={{keyword}}">
+                        {% if page|stringformat:'s' != current %}
+                            {{ page }}
+                        {% else %}
+                            <b>{{ page }}</b>
+                        {% endif %}
+                    </a>
+                {% endfor %}
 
-        {% if articles.has_next %}
-        <a href="{% url 'board_page' board_name=board_name page=articles.next_page_number %}">
-        {% else %}
-        <a href="#">
-        {% endif %}
-            <button class="ui compact icon button {{ articles.has_next|yesno:',disabled' }}">
-                <i class="angle right icon"></i>
-            </button>
-        </a>
-        <a href="{% url 'board_page' board_name=board_name page=articles.paginator.count %}?keyword={{keyword}}">
-                <button class="ui compact icon button {{ articles.has_next|yesno:',disabled' }}">
-                <i class="angle double right icon"></i>
-            </button>
-        </a>
-    </div>
-
-    <form method="post" action="{% url 'board_search' board_name=board_name %}">{% csrf_token %}
-        <select name="method" class="ui dropdown">
-            <option value="title">제목</option>
-            <option value="author">작성자</option>
-        </select>
-        <div class="ui input">
-            <input name="keyword" type="text" placeholder="Search...">
+                {% if articles.has_next %}
+                <a href="{% url 'board_page' board_name=board_name page=articles.next_page_number %}">
+                {% else %}
+                <a href="#">
+                {% endif %}
+                    <button class="ui compact icon button {{ articles.has_next|yesno:',disabled' }}">
+                        <i class="angle right icon"></i>
+                    </button>
+                </a>
+                <a href="{% url 'board_page' board_name=board_name page=articles.paginator.count %}?keyword={{keyword}}">
+                    <button class="ui compact icon button {{ articles.has_next|yesno:',disabled' }}">
+                        <i class="angle double right icon"></i>
+                    </button>
+                </a>
+            </div>
         </div>
-        <button class="ui icon button" type="submit">
-            <i class="search icon"></i>
-        </button>
-    </form>
+        <form class="row center aligned" method="post" action="{% url 'board_search' board_name=board_name %}">{% csrf_token %}
+            <div class="three wide column"></div>
+            <div class="ui fluid input ten wide column">
+                <select name="method" class="ui dropdown two wide column">
+                    <option value="title">제목</option>
+                    <option value="author">작성자</option>
+                </select>
+                <input name="keyword" type="text" placeholder="Search..." size="40">
+                <button class="ui icon button one wide column" type="submit">
+                    <i class="search icon"></i>
+                </button>
+            </div>
+            <div class="three wide column"></div>
+        </form>
+    </div>
 </div>
 {% endif %}
 {% endblock articled %}

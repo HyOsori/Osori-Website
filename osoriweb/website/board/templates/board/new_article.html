@@ -1,11 +1,22 @@
 {% extends 'board/template_board_nav.html' %}
 {% block articled %}
-<h1> {{ title }} </h1>
-<div class="ui container" style="width: 50%;">
-    <h1 class="ui center aligned header">Article Editor</h1>
-    <form method="POST" class="post-form">{% csrf_token %}
-        {{ form.as_p|safe }}
-        <button type="submit" class="save btn btn-default">Save</button>
-    </form>
+
+
+<div class="ui grid">
+    <div class="row"><div class="ui container">
+        <h1 class="ui center aligned header"> {{ title }} Editor</h1>
+    </div></div>
+    <div class="row center aligned">
+        <div class="two wide column"></div>
+        <div class="twelve wide column">
+            <form method="POST" class="post-form">{% csrf_token %}
+                <table class="ui center aligned celled striped table">
+                {{ form.as_table|safe }}
+                </table>
+                <button type="submit" class="ui black button">Save</button>
+            </form>
+        </div>
+        <div class="two wide column"></div>
+    </div>
 </div>
 {% endblock articled %}
