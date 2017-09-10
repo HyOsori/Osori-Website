@@ -1,6 +1,10 @@
 {% extends 'board/template_board_nav.html' %}
 {% block articled %}
 
+{% if board_name|stringformat:"s" != 'noti' and not user.is_authenticated %}
+<h1>접근불가</h1>
+{% else %}
+
 <div class="ui center aligned container" style="width: 50%;">
     <div class="ui grid">
         <div class="three wide column"></div>
@@ -11,7 +15,7 @@
                 </a>
             </h1>
         </div>
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and board_name|stringformat:"s" != 'noti' or user.is_staff %}
         <div class="three wide column right aligned">
             <br>
             <a style="" href="{% url 'create_article' board_name=board_name %}">new post</a>
@@ -91,4 +95,5 @@
         </button>
     </form>
 </div>
+{% endif %}
 {% endblock articled %}

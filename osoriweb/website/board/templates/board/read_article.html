@@ -2,7 +2,7 @@
 
 {% block articled %}
 
-{% if user.is_staff %}
+{% if article.author == user %}
 <div class = postControl>
 	<a href="{% url 'update_article' board_name=board_name pk=article.pk %}">수정</a>&nbsp;&nbsp;
     <a href="{% url 'delete_article' board_name=board_name pk=article.pk %}">삭제</a>

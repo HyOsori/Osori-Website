@@ -55,9 +55,11 @@ def user_register_view(request):
 			messages.success(request, '회원 가입이 완료되었습니다.')
 			return redirect('login/done')
 		else:
-			messages.error(request, ('에러 발생'))
+			messages.error(request, '에러 발생')
+			return render(request, 'registration/signup.html', {
+				'user_form': user_form})
 	else:
-		user_form =UserForm()
+		user_form = UserForm()
 		return render(request, 'registration/signup.html', {
 		'user_form':user_form})
 
