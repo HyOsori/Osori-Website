@@ -1,5 +1,5 @@
-{% extends 'website/template.html' %}
-{% block content %}
+{% extends 'board/template_board_nav.html' %}
+{% block articled %}
 
 <div class="photolist">
 	{% for photo in photos  %}
@@ -30,4 +30,4 @@
         {% endif %}
     </span>
 </div>
-{% endblock content %}
+{% endblock articled %}

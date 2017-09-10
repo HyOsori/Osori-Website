@@ -1,11 +1,16 @@
 {% extends 'website/template.html' %}
 {% block content %}
+{% load staticfiles %}
+
+<img class="ui image" src={% static 'images/upper_background.png'%}  alt="상단배경" width="100%"></img>
+
 
 <nav class = "left_nav">
 <ul>
 	<li><a href="{% url 'board_home' 'noti' %}">공지 게시판</a></li>
 	<li><a href="{% url 'board_home' 'info' %}">정보 게시판</a></li>
 	<li><a href="{% url 'board_home' 'free' %}">자유 게시판</a></li>
+	<li><a href="{% url 'album' %}">사진 게시판</a></li>
 </ul>
 </nav>
 <div class = "container">

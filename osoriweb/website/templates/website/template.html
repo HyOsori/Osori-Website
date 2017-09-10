@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load startswith %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,48 +22,62 @@
 	</div>
 	{% endfor %}
 	{% endif %}
-
 	<header>
-<a href="{%url 'index_page'%}">		<img src={%static 'images/logo.jpg'%} alt="오소리">		</img></a>
-
-		<div class = "user_info">
-			<ul>
-				{% if user.is_active %}
-				<li><a href="{%url 'change_password'%}">{{user.username}}</a></li>
-				<li><a href="{% url 'logout' %}">Logout</a></li>
-				{% else %}
-				<form action="{% url 'login' %}" method="POST"> {% csrf_token %}
-					<input id="username-field" name="username" type="text" />
-					<input id="password-field" name="password" type="password" />
-					<button type="submit">Login</button>
-				</form>
-				<li><a href="{% url 'signup'%}">Sign up</a></li>
-				<li><a href="{% url 'admin:index' %}">Admin</a></li>
-				{% endif %}
-			</ul>
+<!--- <a href="{%url 'index_page'%}">	<img src={%static 'images/logo_elem.png'%} height=40px alt="오소리">	</img></a>-->
+		<div class="ui massive inverted pointing attached menu">
+			<div class="right item">
+				<a class="item" href="{% url 'index_page'%}">Home</a>
+				<a class="{%if request.resolver_match.url_name|startswith:'about'%}active{% else %}{% endif %} item" href="{% url 'about'%}">About</a>
+				<a class="{%if request.resolver_match.url_name|startswith:'board'%}active{% else %}{% endif %} item" href="{% url 'board'%}">Archive</a>
+				<a class="{%if request.resolver_match.url_name|startswith:'contact'%}active{% else %}{% endif %} item" href="{% url 'contact'%}">Contact</a>
+				<a class="item"> <span id="signInBtn" class="text">sign in</span>
+					<div class="ui modal">
+						<ul>
+							{% if user.is_staff %}
+							<li><a href="{% url 'admin:index' %}">{{user.username}}</a></li>
+							<li><a href="{% url 'logout' %}">Logout</a></li>
+							{% elif user.is_active %}
+							<li><a href="{%url 'change_password'%}">{{user.username}}</a></li>
+							<li><a href="{% url 'logout' %}">Logout</a></li>
+							{% else %}
+							<form action="{% url 'login' %}" method="POST"> {% csrf_token %}
+								<input id="username-field" name="username" type="text" />
+								<input id="password-field" name="password" type="password" />
+								<button type="submit">Login</button>
+							</form>
+							<li><a href="{% url 'signup'%}">Sign up</a></li>
+							<li><a href="{% url 'admin:index' %}">Admin</a></li>
+							{% endif %}
+						</ul>
+					</div>
+				</a>
+			</div>
 		</div>
 
-		<nav class="top_nav">
-			<ul>
-				<li><a href="{% url 'about'%}">About</a></li>
-				<li><a href="{% url 'board'%}">Board</a></li>
-				<li><a href="{% url 'album'%}">Album</a></li>
-				<li><a href="{% url 'project'%}">Project</a></li>
-				<li><a href="{% url 'contact'%}">Contact</a></li>
-			</ul>
-		</nav>
 
 	</header>
-	<div class = "big_container">
+
+<div class="pusher">
+	<div class = "ui main text container">
 
 		{% block content %}
 		{% endblock %}
 	</div>
-	<div class="footer">
-		<footer>
+</div>
+
+<div id="footer_custom">
+	<div class="ui inverted vertical footer attached segment">
+			<div class="ui container">
 			<p>서울특별시 성동구 왕십리로 222(사근동, 한양대학교) 산학기술관 518호<br>
 				(C) Hanyang OSORI 2017 All rights reserved.</p>
-			</footer>
+			</div>
 		</div>
+	</div>
+		<script>
+		$('#signInBtn').click(function() {
+			$('.ui.modal').modal('show');
+		});
+		</script>
 	</body>
+
 	</html>

@@ -7,6 +7,8 @@ from .models import Article
 from .models import BoardType
 from .forms import ArticleForm
 
+ARTICLE_PER_PAGE = 20
+
 
 def select_articles(request, **kwargs):
 
@@ -48,7 +50,7 @@ def select_articles(request, **kwargs):
             .filter(type=board_type.value) \
             .order_by('-created_date')
 
-    paginator = Paginator(articles, 5)  # Show 10 contacts per page
+    paginator = Paginator(articles, ARTICLE_PER_PAGE)  # Show 10 contacts per page
 
     try:
         pagination = paginator.page(page)
@@ -101,7 +103,7 @@ def search_articles(request, **kwargs):
             .filter(title__contains=keyword)\
             .order_by('-created_date')
 
-    paginator = Paginator(articles, 2)  # Show 10 contacts per page
+    paginator = Paginator(articles, ARTICLE_PER_PAGE)  # Show 10 contacts per page
 
     try:
         articles = paginator.page(page)
