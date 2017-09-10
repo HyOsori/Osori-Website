@@ -1,4 +1,4 @@
-.ftable{
+/*.ftable{
 	text-align : center;
 	width : 90%;
 	color: #fff;
@@ -25,7 +25,7 @@
 }
 a, a:hover{
 	color : #474747;
-	text-decoration : none; 
+	text-decoration : none;
 }
 .board_name{
 	color :#474747;
@@ -136,4 +136,4 @@ textarea#id_text{
 .badge:hover{
 	background-color : #5B6781;
 
-}
+}*/
