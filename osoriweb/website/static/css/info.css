@@ -1,7 +1,4 @@
 /*
-Info Board
-*/
-
 .tTitle{
 	text-align : right;
 	margin-right : 15%;
@@ -64,10 +61,6 @@ a:hover{
 }
 
 
-
-/*
-Info Detail
-*/
 
 .articleT{
 	border-collapse : collapse;
@@ -168,4 +161,4 @@ Info Detail
 
 iframe{
 	padding-right : 15%;
-}
+}*/

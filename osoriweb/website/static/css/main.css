@@ -1,4 +1,4 @@
-      .big_container{
+/*      .big_container{
         width: 100%;
         margin: 0px auto;
         padding: 20px;
@@ -57,8 +57,10 @@
       .footer {
         clear: both;
         padding: 20px;
-      }
+      }*/
 /* contact form */
+
+/*
       .contact_sub {
         text-align : center;
         margin-bottom: 20px;
@@ -87,14 +89,14 @@
         vertical-align: middle;
         border-bottom: 1px solid #ccc;
       }
-
+*/
 /* location tab */
        #map {
         height: 400px;
         width: 80%;
        }
+/*
 
-/* project tab */
       .proj {
         padding: 20px;
 
@@ -118,5 +120,5 @@
       }
       .proj_contributor{
         color: #000;
-        font-size :18px;        
-      }
+        font-size :18px;
+      }*/
