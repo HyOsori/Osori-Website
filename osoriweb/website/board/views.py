@@ -7,8 +7,8 @@ from .models import Article
 from .models import BoardType
 from .forms import ArticleForm
 
-ARTICLE_PER_PAGE = 1
-RADIUS_OF_PAGINATOR = 1
+ARTICLE_PER_PAGE = 20
+RADIUS_OF_PAGINATOR = 5
 
 
 def select_articles(request, **kwargs):
@@ -69,8 +69,8 @@ def select_articles(request, **kwargs):
     page_min = page_number - RADIUS_OF_PAGINATOR
     page_max = page_number + RADIUS_OF_PAGINATOR
 
-    if page_min < 0:
-        page_min = 0
+    if page_min < 1:
+        page_min = 1
 
     if page_max > paginator.num_pages:
         page_max = paginator.num_pages
@@ -137,8 +137,8 @@ def search_articles(request, **kwargs):
     page_min = page_number - RADIUS_OF_PAGINATOR
     page_max = page_number + RADIUS_OF_PAGINATOR
 
-    if page_min < 0:
-        page_min = 0
+    if page_min < 1:
+        page_min = 1
 
     if page_max > paginator.num_pages:
         page_max = paginator.num_pages

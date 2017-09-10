@@ -16,9 +16,9 @@ class InquiryForm(forms.ModelForm):
         model = Inquiry
         fields = ['name', 'email', 'title', 'content']
 
-    name = forms.CharField(label='이름')
-    email = forms.EmailField(label="이메일")
-    title = forms.CharField(label="문의 제목")
+    name = forms.CharField(label='이름', widget=forms.TextInput(attrs={'class':'ui input'}))
+    email = forms.EmailField(label="이메일", widget=forms.TextInput(attrs={'class':'ui input'}))
+    title = forms.CharField(label="문의 제목", widget=forms.TextInput(attrs={'class':'ui input'}))
     content = forms.CharField(widget=forms.Textarea, label = "문의 내용")
 
 
@@ -114,4 +114,3 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('department', 'phone_number', 'github_id')
-

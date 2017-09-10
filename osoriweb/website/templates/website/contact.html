@@ -3,22 +3,30 @@
 {% load staticfiles %}
 
 
+
 <div class="image">
       <img src="{% static 'images/upper_background.png'%}" alt="" width="100%" />
       <h1>Contact</h1>
 </div>
-<div class = "contact_sub">
+<div class = "ui center aligned basic segment">
 	<p>
 		동아리와 관련된 문의사항을 남겨주시면 확인 후 이메일로 연락 드리겠습니다.
 	</p>
 </div>
 
+
+<div class="ui grid">
+<div class="two wide column"></div>
+<div class="twelve wide column">
 <form method="POST" class="post-form">{% csrf_token %}
-	<table class="contact_form">
+	<table class="ui center aligned celled striped table">
 	{{ form.as_table }}
 	</table>
 	<div align="center">
-	<button type="submit" class="save btn btn-default" id = "submit_button">제출하기</button></div>
+	<button type="submit" class="ui black button" id = "submit_button">Submit</button></div>
 </form>
+</div>
+<div class="two wide column"></div>
 
+</div>
 {% endblock content %}
