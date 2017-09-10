@@ -1,12 +1,16 @@
 {% extends 'website/template_aboutnav.html' %}
 {% block articled %}
-<h1> 동아리 연표 </h1>
-    <div class="history">
-        <div class="data">
+<h1 class="ui left aligned secondary basic segment"> 동아리 연표 </h1>
+    <div class="ui container" style="margin-left:40px">
             {% for his in history %}
-            <div>{{ his }}</div>
-            <div>{{ his.content }}</div>
+
+              <div class="inline field">
+                <div class="ui black ribbon label">
+                  {{ his }}
+                </div>
+                <span>{{ his.content }}</span>
+              </div>
+              <br>
             {% endfor %}
-        </div>
     </div>
 {% endblock articled %}

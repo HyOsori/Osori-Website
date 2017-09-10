@@ -1,7 +1,9 @@
 {% extends 'website/template.html' %}
 {% load staticfiles %}
 {% block content %}
-<div class="ui container">
-<img class="ui image" src={% static 'images/background.png'%}  alt="첫페이지" width="100%"></img>
+<div class="image">
+  <img src="{% static 'images/background.png'%}" alt="" height="100%" id="main_image"/>
+  <h1 id="main_page">If software is eating the world,<br>
+   then open source will chew it up!</h1>
 </div>
 {% endblock %}

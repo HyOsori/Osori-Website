@@ -1,11 +1,20 @@
 {% extends 'website/template_aboutnav.html' %}
 {% block articled %}
-<h1> 오시는 길 </h1>
 
-<div id="map"></div>
+<div class="ui grid">
+
+  <div class="row">
+    <h1 class="ui left aligned secondary basic segment"> 오시는 길 </h1>
+  </div>
+
+  <div class="row">
+    <div id="map"></div>
+  </div>
+</div>
+
     <script>
       function initMap() {
-      	
+
          var contentString = '<div id="content">'+
             '<div id="siteNotice">'+
             '</div>'+

@@ -1,17 +1,14 @@
 {% extends 'website/template_aboutnav.html' %}
 {% block articled %}
-<h1> 진행중인 프로젝트 </h1>
+<h1 class="ui left aligned secondary basic segment"> 진행중인 프로젝트 </h1>
+
 
 {% for project in projects %}
-<div class="proj">
-	<div class="proj_titles">
-		<a href="{{project.github_url}}" id="proj_title">{{ project.title }}</a>
-		<div id="proj_period">{{project.start_period}}</div>
-	</div>
-	<div id="proj_subtitle">{{project.subtitle}}</div>
-	<div class="proj_contributor">
-		contributor : {{ project.contributor|linebreaksbr }}
-	</div>
-</div>
+<div class="ui tall stacked segment">
+      <a class="ui red ribbon label"> {{project.start_period}} ~ </a>
+      <span> <strong> {{ project.title }}</strong></span>
+      <p><br>{{project.subtitle}}<br><br>
+			contributor : {{ project.contributor|linebreaksbr }}</p>
+  </div>
 {% endfor %}
 {% endblock articled %}
