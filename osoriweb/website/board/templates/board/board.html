@@ -58,10 +58,14 @@
             </button>
         </a>
 
-        {% for page in articles.paginator.page_range %}
+        {% for page in pages %}
         <span class="current">
             <a href="{% url 'board_page' board_name=board_name page=page %}?method={{method}}&keyword={{keyword}}">
-                {{ page }}
+                {% if page|stringformat:'s' != current %}
+                    {{ page }}
+                {% else %}
+                    <b>{{ page }}</b>
+                {% endif %}
             </a>
         </span>
         {% endfor %}

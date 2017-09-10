@@ -7,7 +7,8 @@ from .models import Article
 from .models import BoardType
 from .forms import ArticleForm
 
-ARTICLE_PER_PAGE = 20
+ARTICLE_PER_PAGE = 1
+RADIUS_OF_PAGINATOR = 1
 
 
 def select_articles(request, **kwargs):
@@ -53,20 +54,35 @@ def select_articles(request, **kwargs):
     paginator = Paginator(articles, ARTICLE_PER_PAGE)  # Show 10 contacts per page
 
     try:
-        pagination = paginator.page(page)
+        articles = paginator.page(page)
     except PageNotAnInteger:
         # If page is not an integer, deliver first page.
-        pagination = paginator.page(1)
+        page = 1
+        articles = paginator.page(page)
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
-        pagination = paginator.page(paginator.num_pages)
+        page = paginator.num_pages
+        articles = paginator.page(page)
+
+    page_number = int(page)
+
+    page_min = page_number - RADIUS_OF_PAGINATOR
+    page_max = page_number + RADIUS_OF_PAGINATOR
+
+    if page_min < 0:
+        page_min = 0
+
+    if page_max > paginator.num_pages:
+        page_max = paginator.num_pages
 
     return render(request, 'board/board.html', {
         'title': board_type.get_title(),
-        'articles': pagination,
+        'articles': articles,
+        'current': page,
+        'pages': range(page_min, page_max + 1),
         'board_name': board_type,
         'method': method,
-        'keyword': keyword
+        'keyword': keyword,
     })
 
 
@@ -109,14 +125,29 @@ def search_articles(request, **kwargs):
         articles = paginator.page(page)
     except PageNotAnInteger:
         # If page is not an integer, deliver first page.
-        articles = paginator.page(1)
+        page = 1
+        articles = paginator.page(page)
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
-        articles = paginator.page(paginator.num_pages)
+        page = paginator.num_pages
+        articles = paginator.page(page)
+
+    page_number = int(page)
+
+    page_min = page_number - RADIUS_OF_PAGINATOR
+    page_max = page_number + RADIUS_OF_PAGINATOR
+
+    if page_min < 0:
+        page_min = 0
+
+    if page_max > paginator.num_pages:
+        page_max = paginator.num_pages
 
     return render(request, 'board/board.html', {
         'title': board_type.get_title(),
         'articles': articles,
+        'current': page,
+        'pages': range(page_min, page_max + 1),
         'board_name': board_type,
         'method': method,
         'keyword': keyword
@@ -210,7 +241,7 @@ def edit_article(request, board_name, pk):
         board_name = board_type.value
 
     article = get_object_or_404(Article, type=board_name, pk=pk)
-    print(article.title)
+
     if request.method == "POST":
         form = ArticleForm(request.POST, instance=article)
         if form.is_valid():
