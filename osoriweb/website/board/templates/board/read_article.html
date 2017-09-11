@@ -2,45 +2,58 @@
 
 {% block articled %}
 
-{% if article.author == user %}
-<div class = postControl>
-	<a href="{% url 'update_article' board_name=board_name pk=article.pk %}">수정</a>&nbsp;&nbsp;
-    <a href="{% url 'delete_article' board_name=board_name pk=article.pk %}">삭제</a>
+<div class="ui center aligned container">
+    <div class="ui grid">
+        <div class="row ">
+            {% if article.author == user %}
+                <div class="two wide column"></div>
+                <div class="twelve wide column right aligned" style="top: 20px;">
+                    <a href="{% url 'update_article' board_name=board_name pk=article.pk %}">수정</a>&nbsp;&nbsp;
+                    <a href="{% url 'delete_article' board_name=board_name pk=article.pk %}">삭제</a>
+                </div>
+                <div class="two wide column"></div>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="two wide column"></div>
+            <div class="twelve wide column">
+                <table class="ui structured celled table" id="article">
+                    <thead>
+                    <tr>
+                        <th class="caption">글제목</th>
+                        <td colspan="5">{{ article.title }}</td>
+                    </tr>
+                    <tr>
+                        <th class="caption">작성자</th>
+                        <td>{{ article.author.username }}</td>
+                        <th class="caption">작성일</th>
+                        <td>{{ article.created_date }}</td>
+                        <th class="caption">조회수</th>
+                        <td>{{ article.view_count }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            <div style="min-height: 300px;">{{ article.text|safe|linebreaksbr }}</div>
+                        </td>
+                    </tr>
+                    {% if before %}
+                    <tr>
+                        <th> 다음 글 </th>
+                        <td colspan = "5"> <a href="{% url 'read_article' board_name=board_name pk=before.pk %}">{{ before.title }}</a></td>
+                    </tr>
+                    {% endif %}
+
+                    {% if after %}
+                    <tr>
+                        <th> 이전 글 </th>
+                        <td colspan = "5"> <a href="{% url 'read_article' board_name=board_name pk=after.pk %}">{{ after.title }}</a></td>
+                    </tr>
+                    {% endif %}
+                    </thead>
+                </table>
+            </div>
+            <div class="two wide column"></div>
+        </div>
+    </div>
 </div>
-{% endif %}
-
-<table class = "articleT" border = '1'>
-    <tr>
-        <th> 제목 </th>
-        <th colspan = "5"> {{ article.title }}</th>
-    </tr>
-
-    <tr>
-        <th> 작성자 </th>
-        <td> {{ article.author }}</td>
-        <th> 작성일 </th>
-        <td> {{ article.created_date|date:"Y-m-d" }}</td>
-        <th> 조회수 </th>
-        <td> {{ article.view_count }}</td>
-    </tr>
-    <tr>
-        <td colspan = "6" class = "articleText"> <div> {{ article.text|safe}}</div></td>
-    </tr>
-
-
-    {% if before %}
-    <tr>
-        <th> 다음 글 </th>
-        <td colspan = "5"> <a href="{% url 'read_article' board_name=board_name pk=before.pk %}">{{ before.title }}</a></td>
-    </tr>
-    {% endif %}
-
-    {% if after %}
-    <tr>
-        <th> 이전 글 </th>
-        <td colspan = "5"> <a href="{% url 'read_article' board_name=board_name pk=after.pk %}">{{ after.title }}</a></td>
-    </tr>
-    {% endif %}
-
-</table>
 {% endblock articled %}
