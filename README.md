@@ -1,5 +1,7 @@
 ## OSORI-WEBSITE
 
+[바로가기](http://hyosori.org)
+
 ### 구조
 
 - About
