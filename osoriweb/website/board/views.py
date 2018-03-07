@@ -264,4 +264,4 @@ def remove_article(request, board_name, pk):
     if article.author == request.user:
         article.delete()
 
-    return redirect('select_articles')
+    return redirect('board_home', board_name)

@@ -19,5 +19,4 @@ urlpatterns = [
 
     url(r'^history/$', views.history, name='history'),
     url(r'^summernote/', include('django_summernote.urls')),
-    
 ]
