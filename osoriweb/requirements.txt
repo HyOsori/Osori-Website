@@ -1,4 +1,4 @@
-Django==1.11.4
+Django==1.11.23
 django-summernote==0.8.7.3
 olefile==0.44
 Pillow==4.2.1
